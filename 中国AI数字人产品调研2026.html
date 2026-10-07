@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中国 AI 数字人产品调研（2026 年 10 月）</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312564C'/%3E%3Ccircle cx='13' cy='13' r='5' fill='none' stroke='%23fff' stroke-width='2.2'/%3E%3Cpath d='M10.5 22.5c1.4-2 3.1-3 5-3s3.6 1 5 3' fill='none' stroke='%23C4762A' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<style>
+:root{
+  --ink:#1F2329;
+  --ink-2:#646A73;
+  --ink-3:#8A939B;
+  --line:#DEE3E8;
+  --line-2:#EDF1F4;
+  --primary:#12564C;
+  --primary-soft:#E8F0EE;
+  --accent:#C4762A;
+  --accent-soft:#FAEFE3;
+  --bg:#FFFFFF;
+  --bg-soft:#F7F9FA;
+  --serif:"Noto Serif SC","Songti SC",Georgia,"Microsoft YaHei",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.78;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+/* ===== 报头 ===== */
+.masthead{border-bottom:2px solid var(--ink);padding:56px 0 22px;margin-bottom:0;}
+.kicker{
+  font-size:13px;letter-spacing:.14em;color:var(--primary);
+  font-weight:700;margin:0 0 18px;text-transform:none;
+}
+h1.title{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(28px,4.6vw,50px);line-height:1.22;letter-spacing:-.01em;
+  margin:0 0 16px;max-width:20em;
+}
+.subtitle{font-size:17px;color:var(--ink-2);margin:0 0 26px;max-width:44em;line-height:1.7;}
+.meta-row{
+  display:flex;flex-wrap:wrap;gap:10px 34px;font-size:13.5px;color:var(--ink-2);
+  border-top:1px solid var(--line);padding-top:14px;
+}
+.meta-row b{color:var(--ink);font-weight:700;}
+
+.strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border-bottom:1px solid var(--line);margin-bottom:0;
+}
+.strip .cell{padding:22px 22px 22px 0;border-right:1px solid var(--line-2);}
+.strip .cell:last-child{border-right:0;}
+.strip .num{
+  font-family:var(--serif);font-weight:700;font-size:clamp(22px,3.1vw,34px);
+  color:var(--primary);line-height:1.1;font-variant-numeric:tabular-nums;
+}
+.strip .lbl{font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55;}
+
+/* ===== 章节 ===== */
+section{padding:54px 0 8px;border-bottom:1px solid var(--line-2);}
+section:last-of-type{border-bottom:0;}
+h2.sec{
+  font-family:var(--serif);font-weight:700;font-size:clamp(21px,2.6vw,28px);
+  margin:0 0 8px;line-height:1.3;display:flex;gap:14px;align-items:baseline;
+}
+h2.sec .no{
+  font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.08em;
+  font-variant-numeric:tabular-nums;flex:none;padding-top:6px;
+}
+.lede{font-size:16.5px;color:var(--ink-2);max-width:46em;margin:0 0 26px;line-height:1.8;}
+p{margin:0 0 16px;}
+h3{font-family:var(--serif);font-weight:600;font-size:18.5px;margin:30px 0 12px;}
+
+/* ===== 表格 ===== */
+.tablewrap{overflow-x:auto;margin:0 0 10px;border:1px solid var(--line);}
+table{border-collapse:collapse;width:100%;table-layout:fixed;min-width:1120px;}
+thead th{
+  background:var(--bg-soft);text-align:left;font-weight:700;font-size:13.5px;
+  color:var(--ink-2);padding:12px 14px;border-bottom:1px solid var(--line);
+  vertical-align:bottom;line-height:1.5;
+}
+tbody td{
+  padding:14px;border-bottom:1px solid var(--line-2);vertical-align:top;
+  font-size:14px;line-height:1.68;overflow-wrap:anywhere;
+}
+tbody tr:last-child td{border-bottom:0;}
+tbody tr:hover{background:#FCFDFD;}
+.pname{font-weight:700;font-size:14.5px;}
+.dev{display:block;color:var(--ink-3);font-size:12.5px;margin-top:3px;line-height:1.5;}
+.score{
+  font-family:var(--serif);font-weight:700;font-size:19px;color:var(--primary);
+  font-variant-numeric:tabular-nums;display:block;
+}
+.score.na{color:var(--ink-3);font-size:15px;}
+.basis{display:block;color:var(--ink-3);font-size:12px;margin-top:5px;line-height:1.55;}
+a{color:var(--primary);text-decoration:none;border-bottom:1px solid rgba(18,86,76,.35);}
+a:hover{border-bottom-color:var(--primary);}
+a.ext::after{content:"↗";font-size:.78em;vertical-align:.18em;margin-left:2px;color:var(--ink-3);}
+.note-inline{color:var(--ink-3);font-size:12.5px;}
+.tag{
+  display:inline-block;font-size:12px;font-weight:700;line-height:1.5;
+  padding:1px 8px;border:1px solid var(--line);color:var(--ink-2);
+  background:var(--bg-soft);margin-bottom:6px;margin-right:4px;
+}
+.tag.cat-video{color:#0E4A41;background:#E8F0EE;border-color:#C9DCD6;}
+.tag.cat-live{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+.tag.cat-clone{color:#1F4E79;background:#E8EFF5;border-color:#C9D8E6;}
+.tag.cat-interactive{color:#4C5636;background:#EFF1E6;border-color:#D5DAC4;}
+.tag.free{color:#fff;background:var(--primary);border-color:var(--primary);}
+.tag.paid{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+ul.tight{margin:0;padding-left:18px;}
+ul.tight li{margin-bottom:5px;}
+
+/* ===== 图表 ===== */
+.chart-card{border:1px solid var(--line);padding:22px 20px 12px;margin:0 0 10px;background:var(--bg);}
+.chart-title{font-family:var(--serif);font-weight:600;font-size:16.5px;margin:0 0 4px;}
+.chart-sub{font-size:13px;color:var(--ink-2);margin:0 0 14px;line-height:1.62;}
+.chart{width:100%;height:520px;}
+.chart.tall{height:640px;}
+.caption{font-size:12.5px;color:var(--ink-3);line-height:1.7;margin:6px 0 0;}
+
+/* ===== 结论块 ===== */
+.findings{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);}
+.findings .f{padding:24px 24px 8px 0;border-right:1px solid var(--line-2);}
+.findings .f:last-child{border-right:0;padding-right:0;}
+.findings .f .t{font-family:var(--serif);font-weight:700;font-size:16.5px;margin:0 0 8px;line-height:1.5;}
+.findings .f p{font-size:14px;color:var(--ink-2);line-height:1.72;margin:0;}
+
+/* ===== 时间线 ===== */
+.timeline{margin:6px 0 0;position:relative;}
+.timeline::before{
+  content:"";position:absolute;top:11px;bottom:11px;
+  left:116.5px;width:1px;background:var(--line);
+}
+.tnode{display:grid;grid-template-columns:104px 26px 1fr;align-items:start;}
+.tnode .when{
+  font-size:13px;font-weight:700;color:var(--primary);text-align:right;
+  padding-right:10px;line-height:22px;font-variant-numeric:tabular-nums;
+}
+.tnode .axis{display:flex;justify-content:center;}
+.tnode .dot{position:relative;z-index:1;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--primary);margin-top:6px;}
+.tnode.hot .dot{background:var(--accent);border-color:var(--accent);}
+.tnode .body{padding:0 0 22px 14px;}
+.tnode:last-child .body{padding-bottom:0;}
+.tnode .what{font-weight:700;font-size:15px;margin:0 0 3px;line-height:1.55;}
+.tnode .why{font-size:14px;color:var(--ink-2);margin:0;line-height:1.7;}
+
+/* ===== 待确认 ===== */
+.todo{border-top:1px solid var(--line);}
+.todo .t{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line-2);}
+.todo .t .n{font-family:var(--serif);font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;font-size:15px;}
+.todo .t .c{font-size:14px;line-height:1.72;color:var(--ink);}
+.todo .t .c b{font-weight:700;}
+
+/* ===== 信源索引 ===== */
+.srcgrp{margin-bottom:28px;}
+.srcgrp h3{margin-top:0;}
+.srclist{margin:0;padding:0;}
+.srcitem{display:grid;grid-template-columns:112px 1fr;gap:12px;margin-bottom:12px;list-style:none;}
+.srclabel{font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;}
+.srcbody{font-size:14px;line-height:1.7;overflow-wrap:anywhere;}
+.srcfield{display:block;margin-top:2px;font-size:12.5px;color:var(--ink-3);}
+
+footer{padding:34px 0 56px;color:var(--ink-3);font-size:13px;line-height:1.8;}
+footer b{color:var(--ink-2);}
+
+@media (max-width:960px){
+  .strip{grid-template-columns:repeat(2,1fr);}
+  .strip .cell:nth-child(2){border-right:0;}
+  .strip .cell{border-bottom:1px solid var(--line-2);padding-right:16px;}
+  .strip .cell:nth-child(3),.strip .cell:nth-child(4){border-bottom:0;}
+  .findings{grid-template-columns:1fr;}
+  .findings .f{border-right:0;border-bottom:1px solid var(--line-2);padding:20px 0 14px;}
+  .findings .f:last-child{border-bottom:0;}
+  .tablewrap{border:0;overflow:visible;}
+  table{min-width:0;table-layout:auto;display:block;}
+  thead{display:none;}
+  tbody{display:block;}
+  tbody tr{display:block;border:1px solid var(--line);margin-bottom:14px;padding:4px 0;}
+  tbody td{display:grid;grid-template-columns:88px 1fr;gap:10px;border-bottom:1px solid var(--line-2);padding:10px 14px;font-size:13.5px;}
+  tbody td:last-child{border-bottom:0;}
+  tbody td::before{
+    content:attr(data-label);font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;
+  }
+  .chart{height:640px;}
+  .chart.tall{height:840px;}
+  .tnode{grid-template-columns:78px 20px 1fr;}
+  .tnode .when{font-size:12px;padding-right:7px;}
+  .tnode .body{padding-left:10px;}
+  .timeline::before{left:87.5px;}
+  .meta-row{font-size:14px;}
+  .strip .lbl{font-size:13.5px;}
+  .findings .f p{font-size:14.5px;}
+  tbody td{font-size:14.5px;grid-template-columns:98px 1fr;}
+  tbody td::before{font-size:13px;}
+  .dev{font-size:14px;}
+  .tablewrap a.ext{display:inline-block;padding:10px 0;}
+  .srcitem{grid-template-columns:1fr;gap:2px;}
+  .srclabel{font-size:13px;}
+  .srcbody{font-size:14.5px;}
+  .kicker{font-size:14px;}
+  .strip .lbl{font-size:14px;}
+  .tag{font-size:14px;}
+  h2.sec .no{font-size:14px;}
+}
+@media (max-width:520px){
+  .wrap{padding:0 16px;}
+  .chart{height:720px;}
+  .tnode{grid-template-columns:66px 16px 1fr;}
+  .timeline::before{left:73.5px;}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">AI 数字人调研 · 中国（大陆）· 2026 年 10 月口径</p>
+    <h1 class="title">中国 AI 数字人产品调研</h1>
+    <p class="subtitle">覆盖口播视频数字人、直播数字人、形象克隆与交互式数字人四类：谁在做、能免费用多少、按什么价格卖、形象与语音的真实表现处在什么水位。25 个在营产品逐一核验，每条结论附可追溯来源、三类信源交叉验证。</p>
+    <div class="meta-row">
+      <span>数据口径：<b>截至 2026-10-07</b></span>
+      <span>计价货币：<b>人民币（CNY）</b></span>
+      <span>信源交叉：<b>官方站点 / 科技媒体 / 用户社区</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="strip">
+    <div class="cell"><div class="num">25</div><div class="lbl">可评分在营产品</div></div>
+    <div class="cell"><div class="num">17</div><div class="lbl">含免费试用或免费额度</div></div>
+    <div class="cell"><div class="num">¥30–666</div><div class="lbl">主流付费档月费区间</div></div>
+    <div class="cell"><div class="num">4</div><div class="lbl">覆盖产品品类数</div></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+<section>
+  <h2 class="sec"><span class="no">01</span>核心结论</h2>
+  <p class="lede">国内数字人赛道在 2025—2026 年完成了一次出清与分层：C 端通用工具退潮（腾讯智影停服），B 端与电商场景成为主战场；价格从「形象定制几万元」下沉到「月费几十元 + 按量计费」，四类产品的能力边界也已基本清晰。</p>
+  <div class="findings">
+    <div class="f"><p class="t">价格重心整体下沉到月费档</p><p>本轮核验的 25 个在营产品中有 17 个提供免费试用或长期免费额度。主流个人与中小商家付费档落在 30–300 元/月：百度曦灵把 3D 超写实数字人拉到 199 元/月起，魔珐有言个人入门版 30.4 元/月，华为云 Flexus 数字人一次性 999 元即含形象与声音克隆，京东数字人则对京东商家免费开放（原标准服务价值 3 万元/年）。万元级一次性形象定制正在被订阅制替代。</p></div>
+    <div class="f"><p class="t">电商直播是最先跑通商业闭环的场景</p><p>京东言犀数字人已服务超 4000 个品牌直播间，联想 3 家京东店铺的 AI 主播平均每小时 GMV 达真人主播的 35 倍；风平智能、硅基智能、中科深智均以 7×24 小时无人直播为主打；快手可灵 AI 单季营收超 8.5 亿元验证了规模变现。数字人正从单独售卖的工具，变成电商平台的商家侧基础经营能力。</p></div>
+    <div class="f"><p class="t">技术分水岭在「口型与语音」而非形象</p><p>照片与小样本驱动的形象真实度差距已明显收窄，头部之间的差异主要体现在口型与动作自然度、语音克隆音色还原度与批量稳定性。8.0 分以上的四个对象——火山引擎 OmniHuman（8.4）、百度一镜（8.3）、商汤如影（8.2）、腾讯云数智人（8.1）——共同点是在口型与语音主线上有可验证的积累，而非靠形象素材堆量；3D 超写实仍以魔珐有言、百度曦灵为代表且成本更高。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">02</span>产品字段总表</h2>
+  <p class="lede">同一行回答同一组问题：谁开发的、属于哪一类数字人、去哪用、免费用多少、按什么价格卖、质量与短板在哪。评分为主观共识评分，非厂商指标；价格为 2026-10-07 人民币口径。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup>
+        <col style="width:15%"><col style="width:7%"><col style="width:13%">
+        <col style="width:12%"><col style="width:17%"><col style="width:16%"><col style="width:20%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>产品 / 开发方</th>
+          <th>评分</th>
+          <th>评分依据</th>
+          <th>官方入口</th>
+          <th>免费额度</th>
+          <th>价格</th>
+          <th>特点与局限</th>
+        </tr>
+      </thead>
+      <tbody id="mainTable">
+      </tbody>
+    </table>
+  </div>
+  <p class="caption" id="tableCaption"></p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">03</span>综合质量评分对比</h2>
+  <p class="lede">评分为主观共识评分，由作者综合科技媒体评测结论与用户社区口碑给出，满分 10 分。评估维度：形象真实度与一致性、口型与动作自然度、语音克隆/音质、生成稳定性、功能与生态完备度；四类产品（口播视频 / 直播 / 形象克隆 / 交互）按自身核心维度加权。</p>
+  <div class="chart-card">
+    <p class="chart-title">（25）个对象的综合质量评分（满分 10）</p>
+    <p class="chart-sub">颜色区分产品品类：深青为口播视频数字人，赭色为直播数字人，蓝为形象克隆，橄榄为交互式数字人。</p>
+    <div class="chart tall" id="chartScore"></div>
+    <p class="caption">数据口径：2026-10-07。评分非厂商官方指标。</p>
+  </div>
+  <p>第一梯队集中在 8.0 分以上的四个对象：火山引擎 OmniHuman（8.4）、百度一镜（8.3）、商汤如影（8.2）、腾讯云智能数智人（8.1）。评分差异最主要的来源并不是形象真实度——照片与小样本驱动的形象真实度差距已经收窄——而是口型与动作的自然度、语音克隆的音色还原度，以及能否稳定批量产出。需要说明的是四类产品并不可直接横向比较：直播类看的是长时开播稳定性与话术生成，交互类看的是对话与知识库能力，本图只按各自核心维度加权后的综合分排序。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">04</span>价格与免费额度的位置</h2>
+  <p class="lede">把「最低付费门槛」和「质量评分」放在同一坐标系，看免费与付费档的分布规律。</p>
+  <div class="chart-card">
+    <p class="chart-title">最低付费月费与质量评分的关系</p>
+    <p class="chart-sub">横轴为可查证的最低付费月费（元/月），完全免费者记为 0；纵轴为综合评分。仅纳入价格口径明确的在营产品；仅公布年费的产品按年费 ÷ 12 折算为月费口径。</p>
+    <div class="chart" id="chartPrice"></div>
+    <p class="caption">未纳入本图的条目及其原因见总表与待确认清单。</p>
+  </div>
+  <p>把最低付费月费与评分放在一起，可以看到国内数字人并没有形成「越贵越好」的关系：月费 30–200 元区间聚集了大量 7.0–8.2 分的产品，而门槛最高的按路/按设备授权方案（腾讯云数智人 3500 元/月/路起、阿里云 DVH 5749 元/月/路）在评分上并没有拉开代差。免费额度已经是标配——25 个在营产品中 17 个提供免费额度，差别在于额度是「一次性试水」（商汤如影赠 5 分钟、KreadoAI 赠 180 K 币）还是「可持续使用」（京东数字人对商家免费、可灵 AI 每日赠灵感值）。仅按量或按年计费、无法折算月费的产品（华为云 Flexus、风平智能、火山引擎即梦按量档）未纳入本图。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">05</span>2025—2026 关键节点</h2>
+  <p class="lede">按公开可查的发布、上线与策略变化时点排列，用于理解竞争格局是怎么形成的。</p>
+  <div class="timeline" id="timeline"></div>
+  <p style="margin-top:22px;">2025 年是出清年：C 端通用工具退潮、价格战开打、行业标准落地；2026 年则在生成式 AI 备案常态化之后，竞争重心转向「数字人 + 智能体」——百度把数字人平台升级为多智能体平台、字节把 OmniHuman 接入 API 生态、快手用可灵的收入验证了规模变现，京东则用免费策略把数字人变成电商基础设施。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">06</span>厂商 / 能力核验</h2>
+  <p class="lede">用户情报与检索中重点点名的厂商与方向，逐一给出核验结论；没有能力或无法核实就如实写。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup><col style="width:16%"><col style="width:16%"><col style="width:68%"></colgroup>
+      <thead>
+        <tr><th>厂商 / 产品</th><th>核验结论</th><th>说明</th></tr>
+      </thead>
+      <tbody id="verifyTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">07</span>信源索引</h2>
+  <p class="lede">按产品分组，标注每条来源支撑哪些字段。三类信源交叉验证：官方站点、科技媒体、用户社区（含应用商店）。</p>
+  <div id="sourceIndex"></div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">08</span>待确认与无法核实项</h2>
+  <p class="lede">以下条目在本轮公开检索范围内无法取得可靠官方口径，如实列出，未作推测填补。</p>
+  <div class="todo" id="todoList"></div>
+</section>
+
+<footer>
+  <p><b>方法与免责：</b>本报告信息采集截止北京时间 2026 年 10 月 7 日，全部价格以人民币计（海外产品引用美元原值并约合人民币，按 1 USD ≈ 7.1 CNY 估算）。“数字人质量评分”为主观共识评分，由作者综合科技媒体评测结论与用户社区口碑给出，非厂商官方指标，也不等同于客观基准测试；同一产品在不同形象素材、语种与场景下表现差异较大。</p>
+  <p><b>已剔除的非官方来源：</b>第三方域名自称官方或提供更低报价的页面，均不作为官方依据；带推广性质的内容源已在引用时单独标注。</p>
+  <p>价格与免费额度变动频繁，正式采购前请以厂商官方页面为准。</p>
+</footer>
+
+<script>
+/* =====================================================================
+   填充说明（两个子代理按此规范填充，勿改动 CSS 与渲染函数结构）：
+   1. PRODUCTS：每个产品一个对象，字段见下。cat 取值 video/live/clone/interactive；
+      score 为 10 分制主观共识分（可小数，null 表示不评分，如"无此能力"条目）；
+      avail 取值 free（有免费额度）/ paid（付费或仅 API）；
+      site 为官方域名（label 显示名，url 链接）；
+      free 写免费额度具体口径；price 写价格（国内人民币；海外 USD 并附 cny 约合人民币）；
+      basis 写 10-25 字评分依据；note 写特点与局限（40-90 字）。
+   2. PRICE_POINTS：x=最低付费月费（元，免费记 0，海外换算为人民币），y=评分，free=true/false，lp=标签位置(top/bottom/right/left)。
+   3. TIMELINE：{when, what, why, hot}，hot=true 表示关键节点（赭色圆点）。
+   4. VERIFIED：{name, verdict, note}，verdict 可含 <span class="tag">…</span>。
+   5. SOURCES：按产品分组，items 为 [来源类型, 链接HTML(或纯文本), 支撑字段]。
+   6. TODOS：[产品, 待确认说明]。
+   7. 除数据数组外，还需替换：报头 kicker/h1/subtitle/meta-row、strip 四个数字、
+      各 section 的 lede 与解读段落、（01）核心结论三卡、（05）时间线总结。
+   8. 完成后用 Edge/Chrome 无头模式截桌面与移动两张图存入 _shots 目录并自查布局。
+===================================================================== */
+
+const PRODUCTS = [
+  {
+    name:"商汤如影 SenseAvatar", dev:"商汤科技（SenseTime）", cat:"video",
+    score:8.2, avail:"free",
+    site:{label:"senseavatar.sensetime.com", url:"https://senseavatar.sensetime.com/"},
+    free:"新用户注册即赠 5 分钟视频合成时长；100+ 版权形象、300+ 多语种音色大部分免费",
+    price:"时长加油包：20 分钟 98 元、100 分钟 398 元；如影 VIP 会员 1898 元/年；高级数字人定制 6898 元",
+    basis:"口型与形象一致性第一梯队；中文口播自然度高",
+    note:"2D/3D 数字人视频与直播一体，形象库、多语种音色库与企业素材较全，适合营销内容批产；短板是精品形象与高级定制需额外付费，深度定制要走商务流程。"
+  },
+  {
+    name:"百度一镜（原慧播星）", dev:"百度（百度智能云 / 百度电商）", cat:"video",
+    score:8.3, avail:"paid",
+    site:{label:"huibo.baidu.com", url:"https://huibo.baidu.com/"},
+    free:"待确认（平台侧有新人免费权益与限时活动，未公示统一额度）",
+    price:"按条计费：用已有形象生成一条约 2 分钟口播约 0.9 元；企业 SaaS 标准版约 2529 元起（媒体与渠道口径）",
+    basis:"多智能体协同与实时互动强；已服务超 10 万客户",
+    note:"由慧播星升级而来，集数字人直播、视频与实时互动于一体，背靠文心大模型与百度内容生态；短板是面向个人用户的定价与免费额度不透明，主体面向企业客户。"
+  },
+  {
+    name:"即梦AI 数字人（OmniHuman）", dev:"字节跳动 · 火山引擎", cat:"video",
+    score:8.4, avail:"free",
+    site:{label:"volcengine.com/product/jimeng", url:"https://www.volcengine.com/product/jimeng"},
+    free:"图像生成大模型-数字人能力免费试用可生成 200 秒数字人视频",
+    price:"数字人能力按量 0.1 元/秒；OmniHuman1.5 与数字人快速模式 1 元/秒",
+    basis:"OmniHuman 生成自然度横评靠前；API 生态完整",
+    note:"面向开发者与企业，单图加音频即可驱动全身口播，动作与表情自然度高、接口稳定、并发可控；短板是面向个人即梦 App 的数字人价格未公示，按量成本随时长线性上升。"
+  },
+  {
+    name:"可灵AI（Avatar 对口型）", dev:"快手（Kuaishou）", cat:"video",
+    score:8.1, avail:"free",
+    site:{label:"klingai.com", url:"https://klingai.com/"},
+    free:"新用户注册赠灵感值，每日登录可再领少量灵感值（每日赠送 66 灵感值口径）",
+    price:"黄金会员 66 元/月、铂金 266 元/月、钻石 666 元/月、黑金 1149 元/月",
+    basis:"口型与动作自然度国内第一梯队；会员档位透明",
+    note:"从视频生成底座延伸出的形象驱动能力，对口型、动作控制与多语言表现稳定，社区教程与模板丰富；短板是数字人并非独立产品线，长视频批量生产与直播要自行拼接流程。"
+  },
+  {
+    name:"讯飞智作", dev:"科大讯飞", cat:"video",
+    score:7.5, avail:"free",
+    site:{label:"peiyin.xunfei.cn", url:"https://peiyin.xunfei.cn/"},
+    free:"开放平台「超拟人数字人交互」个人免费包 2 小时 / 90 天；企业免费包 10 小时",
+    price:"待确认（VIP 会员按创作时长或企业账户计，官网未公示统一档位）",
+    basis:"语音合成与多情感音色积累深；形象自然度中等",
+    note:"依托星火大模型与讯飞语音栈，上传照片或视频几分钟即可生成专属数字人，配音与多语种是明显强项；短板是形象真实度与口型精细度弱于第一梯队，个人端价格不透明。"
+  },
+  {
+    name:"来画（数字人播报）", dev:"深圳市前海手绘科技文化有限公司（来画）", cat:"video",
+    score:6.9, avail:"free",
+    site:{label:"laihua.com", url:"https://www.laihua.com/"},
+    free:"免费版可用（含部分数字人与动画功能，导出带水印）",
+    price:"数字人播报约 16 元/分钟；数字人会员 4.1 元/分钟起（年付）；动画普通会员 398 元/年、198 元/月",
+    basis:"模板与素材量大、上手门槛低；真实度偏中下",
+    note:"动画加数字人一体的轻量创作平台，百万级免费素材与大量模板，适合课件、科普与营销短视频；短板是形象偏卡通与中度写实，口型与动作精细度不足以支撑高要求口播。"
+  },
+  {
+    name:"万兴播爆 Virbo", dev:"万兴科技（Wondershare）", cat:"video",
+    score:7.6, avail:"free",
+    site:{label:"virbo.wondershare.cn", url:"https://virbo.wondershare.cn/"},
+    free:"每日免费导出 2 次（单次上限 5 分钟，带水印）",
+    price:"月度会员 198 元；专业会员连续包月 169 元；基础会员连续包周 68 元（App Store 人民币口径）",
+    basis:"跨境营销模板与多语种音色丰富；评测口碑稳",
+    note:"主打跨境电商与出海营销短视频，形象与语种口音覆盖广，模板化程度高、上手快；短板是偏商务播报风格，形象与口型自然度不及头部，中文站完整定价页未取得。"
+  },
+  {
+    name:"闪剪（数字人定制）", dev:"深圳市闪剪智能科技有限公司", cat:"video",
+    score:7.0, avail:"free",
+    site:{label:"shanjian.tv", url:"https://www.shanjian.tv/"},
+    free:"新用户注册享免费体验额度，用完后可购会员",
+    price:"基础版 398 元/年；标准会员 479 元/月、3988 元/年；专业版 2998 元/年",
+    basis:"低价无限克隆与批量成片；精细度属中游",
+    note:"以「无限定制形象加声音克隆」和智能成片为主打，价格在同类里最低，适合矩阵账号批量口播；短板是基础版算力与分辨率受限、形象与口型精细度一般，直播需另购智播套餐。"
+  },
+  {
+    name:"蝉镜数字人", dev:"蝉妈妈（厦门蝉羽网络科技）", cat:"video",
+    score:7.2, avail:"free",
+    site:{label:"chanjing.cc", url:"https://www.chanjing.cc/"},
+    free:"注册赠 60 蝉豆（约 1 分钟合成时长）；免费版每月 3 次 2D 数字人克隆加 3 次声音克隆",
+    price:"基础版 198 元/月；专业版与企业版按需咨询",
+    basis:"免费版即可克隆形象；电商数据背景加持",
+    note:"依托蝉妈妈的电商数据能力做口播与带货视频，公版形象多、免费版就能克隆 2D 形象，性价比高；短板是 4K 与批量能力集中在付费档，形象与口型属中上而非顶尖。"
+  },
+  {
+    name:"开拍（数字人 2.0）", dev:"美图公司（Meitu）", cat:"video",
+    score:7.4, avail:"free",
+    site:{label:"kaipai.com", url:"https://www.kaipai.com/"},
+    free:"免费版可用（数字人基础功能有额度限制）",
+    price:"VIP 连续包月 30 元、连续包年 238 元；SVIP 89 元/月、699 元/年；数字人时长 5 元/分钟起",
+    basis:"口播全链路体验好；数字人 2.0 提升明显",
+    note:"覆盖脚本、提词、精修到剪辑的一条链路口播工具，数字人 2.0 在动作连贯性与微表情上有明显提升，个人订阅便宜；短板是数字人时长单独计费，直播与复杂交互能力弱。"
+  },
+  {
+    name:"KreadoAI", dev:"昆仑万维（Kunlun Tech）", cat:"video",
+    score:7.3, avail:"free",
+    site:{label:"kreadoai.com", url:"https://kreadoai.com/"},
+    free:"新用户注册赠 180 K 币（约 3 分钟视频），无需绑卡",
+    price:"基础版 138 元/月、高级版 427 元/月；专业版形象克隆 3499 元/次",
+    basis:"多语种出海场景成熟；中文本土化一般",
+    note:"定位跨境营销的数字人视频平台，形象与语种覆盖广、提供极速克隆额度，免费额度足够完整体验；短板是中文场景与国内平台适配偏弱，高质量形象克隆单独收费较贵。"
+  },
+  {
+    name:"阿里云 万相数字人平台", dev:"阿里云（通义 / 百炼生态）", cat:"video",
+    score:7.7, avail:"free",
+    site:{label:"help.aliyun.com/zh/avatar", url:"https://help.aliyun.com/zh/avatar/avatar-application/product-overview/avatar-membership-subscriptions-and-credits-packages"},
+    free:"免费会员每月登录赠 100 积分（限时奖励）；音色克隆限时免费",
+    price:"标准会员 100 元/月（1000 积分）、高级会员 300 元/月（3000 积分）",
+    basis:"云厂稳定性与 API 生态；口型模型持续迭代",
+    note:"把数字人形象训练与视频创作做成订阅加积分的云服务，可接入百炼对口型模型，适合开发者批量集成；短板是个人端功能较基础，超写实与直播能力需叠加其他阿里云组件。"
+  },
+  {
+    name:"京东数字人（言犀）", dev:"京东（京东云 / JoyAI）", cat:"live",
+    score:8.0, avail:"free",
+    site:{label:"jdai.jd.com", url:"https://jdai.jd.com/portal/ai-products/yanxi-human"},
+    free:"面向京东商家免费开放（原标准服务价值 3 万元/年）",
+    price:"京东生态内商家 0 元；非商家与正价版 3 万元/年，特惠版 9580 元",
+    basis:"电商直播落地规模最大；日均成本低于百元",
+    note:"深耕电商直播场景，7×24 小时无人开播、双数字人互动与总裁分身等玩法成熟，成本远低于真人主播；短板是强绑定京东生态，站外平台与通用交互场景适配一般。"
+  },
+  {
+    name:"华为云 MetaStudio（Flexus 数字人）", dev:"华为云（Huawei Cloud）", cat:"live",
+    score:7.8, avail:"paid",
+    site:{label:"huaweicloud.com/product/metastudio.html", url:"https://www.huaweicloud.com/product/metastudio.html"},
+    free:"每个租户赠 5GB 资产存储；Flexus 数字人有限时优惠（非免费）",
+    price:"Flexus 数字人 999 元一次性（含 1 个实景形象、1 分钟声音克隆、120 分钟 1080P 视频）；分身形象制作 5999 元/个；视频制作 10 元/分钟",
+    basis:"口型准确率约 95%；政企交付与合规能力强",
+    note:"从形象克隆、声音制作到直播与智能问答的一站式云服务，支持华为自研及第三方音色，政企私有化交付成熟；短板是门槛与单价偏高，对个人与小微创作者不友好。"
+  },
+  {
+    name:"奇妙元", dev:"出门问问（Mobvoi）", cat:"live",
+    score:7.0, avail:"free",
+    site:{label:"weta365.com", url:"https://weta365.com/"},
+    free:"短视频制作免费版：30 秒合成试用时长，部分形象与声音免费",
+    price:"会员 298 元/月；真人形象定制 8000 元起（2.5D/3D 克隆另计）",
+    basis:"WetaAvatar 驱动；直播话术生成链路完整",
+    note:"集数字人视频、直播与 AIGC 助手于一体，支持 PPT 转视频与跨语言内容，直播云渲染可长时间开播；短板是高级形象与真人定制价格高，免费额度仅够试水。"
+  },
+  {
+    name:"风平智能 IP 智造", dev:"北京风平智能科技有限公司", cat:"live",
+    score:6.8, avail:"free",
+    site:{label:"fullpeace.cn", url:"https://fullpeace.cn/"},
+    free:"公版数字人可免费使用；支持免费试用",
+    price:"9800 元/年（腾讯云市场口径）；京东服务市场定制形象版 36800 元",
+    basis:"XGen 智造系统降本明显；案例偏电商直播",
+    note:"以 XGen 数字人智造系统批量生产形象，主打数字人直播与 AI 短视频内容生产，宣称成本降 90%；短板是公开报价少、免费额度口径模糊，个人入口与体验弱于头部平台。"
+  },
+  {
+    name:"中科深智（云小七 / 旺客播）", dev:"北京中科深智科技有限公司", cat:"live",
+    score:6.6, avail:"paid",
+    site:{label:"deepscience.cn", url:"https://www.deepscience.cn/"},
+    free:"待确认（官网未公示免费额度）",
+    price:"待确认（以企业定制与私有化报价为主）",
+    basis:"3D 实时交互与 AI 无人直播；弹幕智能互动",
+    note:"从动作与表情生成算法切入，DoKOL 做数字人 IP 养成、旺客播做 7×24 小时 AI 无人直播并支持多平台；短板是价格与免费额度完全不透明，产品偏企业交付。"
+  },
+  {
+    name:"硅基智能（DUIX / HeyGem）", dev:"南京硅基智能科技集团", cat:"clone",
+    score:7.6, avail:"free",
+    site:{label:"guiji.cn", url:"https://www.guiji.cn/"},
+    free:"HeyGem 开源版免费本地部署（提交约 10 秒视频即可克隆）；DUIX 免费版含基础对话视频额度",
+    price:"形象克隆 8000 元/位（市场价口径，招股书披露分辨率不同档位 0.55 万–2.5 万元）；DUIX 订阅 59 美元/月起",
+    basis:"国内数字人头部厂商；开源 HeyGem 热度高",
+    note:"老牌数字人厂商，覆盖克隆、直播与智能交互，1 秒视频即可完成形象与声音克隆，HeyGem 开源显著降低了自部署门槛；短板是 C 端产品体验分散，标准化 SaaS 不如大厂顺滑。"
+  },
+  {
+    name:"小冰（AI Being / 数字员工）", dev:"小冰公司（原微软小冰团队）", cat:"clone",
+    score:7.3, avail:"paid",
+    site:{label:"business.xiaoice.com", url:"https://business.xiaoice.com/"},
+    free:"待确认（企业数字员工以商务订阅为主；C 端 X Eva 克隆人曾 6 元/月起）",
+    price:"待确认（数字员工企业版按商务报价；历史 C 端克隆人 6–30 元/月）",
+    basis:"情感计算与零样本克隆积累深；已获大模型备案",
+    note:"2019 年提出 AI Being 理念，以情感交互见长，20 分钟有效数据即可生成数字人、支持零样本克隆与实时交互；短板是产品线偏 B 端与虚拟人设，公开价格不透明。"
+  },
+  {
+    name:"阿里云 虚拟数字人 DVH", dev:"阿里云", cat:"clone",
+    score:7.4, avail:"paid",
+    site:{label:"help.aliyun.com/zh/avatar", url:"https://help.aliyun.com/zh/avatar/"},
+    free:"待确认（未公示统一免费额度）",
+    price:"数字人形象定制 6999 元/次；2D 实时交互 250 元/月/设备授权；3D 数字人流媒体 5749 元/月/路",
+    basis:"云厂 SLA 与 3D 流媒体能力；报价透明",
+    note:"面向企业的数字人开放平台，提供形象定制、语音克隆、2D 实时交互与 3D 流媒体，支持端渲染与云渲染两条路线；短板是按路与按设备授权计费、门槛高，个人与小微团队不适用。"
+  },
+  {
+    name:"腾讯云智能数智人（TCADH）", dev:"腾讯云", cat:"interactive",
+    score:8.1, avail:"paid",
+    site:{label:"cloud.tencent.com/product/ivh", url:"https://cloud.tencent.com/product/ivh"},
+    free:"待确认（无公开免费额度，需开通与商务询价）",
+    price:"3D 卡通 3500 元/月/路、3D 半写实 5200 元/月/路、3D 写实 6750 元/月/路；2D 小样本专属口型 500 美元/月/路（约合 3550 元/月）",
+    basis:"口型自然度业界领先；端云混合渲染成熟",
+    note:"腾讯的数字人底座，覆盖形象播报与实时语音交互，端云混合渲染可适配不同终端算力，金融、政务与客服案例多；短板是形象采购为必选项、组合购买复杂，价格偏高且无公开免费档。"
+  },
+  {
+    name:"百度智能云 曦灵数字人", dev:"百度智能云", cat:"interactive",
+    score:7.9, avail:"free",
+    site:{label:"xiling.cloud.baidu.com", url:"https://xiling.cloud.baidu.com/"},
+    free:"新人免费权益可领取（基础形象库与限时长语音合成）",
+    price:"3D 超写实 199 元/月起、高级套餐约 699 元/月；2D 数字分身定制 3000 元；2D 小样本定制 2000 元/次",
+    basis:"率先打价格战；文心大模型文案能力强",
+    note:"一个平台打通 2D、照片与 3D 数字人克隆、声音克隆、短视频与直播，依托文心大模型生成文案；短板是 3D 形象真实度与口型精细度仍有提升空间，高阶形象按量另计。"
+  },
+  {
+    name:"魔珐有言（youyan3d）", dev:"魔珐科技（Xmov）", cat:"interactive",
+    score:8.0, avail:"free",
+    site:{label:"youyan3d.com", url:"https://www.youyan3d.com/"},
+    free:"个人体验版注册赠 900 言币（有效期 14 天），可免费生成带水印视频",
+    price:"个人入门版 30.4 元/月起；个人标准版 49.8 元/月起",
+    basis:"3D 超写实数字人成本控制领先；动作库丰富",
+    note:"以 3D 超写实数字人加 AIGC 视频生成为核心，动作与表情由 AI 自动编排，模板与角色库达数千款，把 3D 视频成本从数十万降到数十元级；短板是 3D 渲染耗时与算力消耗高，精细定制仍需商务。"
+  },
+  {
+    name:"360 AI 数字人", dev:"三六零（360 亿方智能）", cat:"interactive",
+    score:6.7, avail:"paid",
+    site:{label:"aiplus.360.cn/adh", url:"https://aiplus.360.cn/adh"},
+    free:"待确认（官网未公示免费额度）",
+    price:"待确认（以企业定制与项目报价为主）",
+    basis:"安全可信叙事；全类型文档训练为卖点",
+    note:"由 360 智脑大模型驱动，覆盖交互型、短视频与直播三类数字人，强调全类型文档自主训练与政企客服场景；短板是公开价格与免费额度缺失，成熟度与生态低于头部云厂。"
+  },
+  {
+    name:"网易伏羲 有灵虚拟人", dev:"网易（杭州）网络有限公司", cat:"interactive",
+    score:7.1, avail:"paid",
+    site:{label:"fuxi.163.com", url:"https://fuxi.163.com/"},
+    free:"待确认（第三方企服平台标注支持免费试用，官网未确认）",
+    price:"待确认（第三方企服平台列企业 AI 高级版 6998 元/年、臻享版 11998 元/年）",
+    basis:"游戏 AI 与虚拟人技术积淀；虚拟形象质量高",
+    note:"基于妙启、玉声、玉容等模型构建虚拟智能体，具备人设对话、共情与内容生产能力，已在游戏与文旅落地；短板是产品重心已转向人机协作与具身智能，独立数字人产品的在营状态与报价不透明。"
+  }
+];
+
+const PRICE_POINTS = [
+  {name:'京东数字人', x:0, y:8.0, free:true, lp:'right'},
+  {name:'魔珐有言', x:30, y:8.0, free:true, lp:'top'},
+  {name:'开拍', x:30, y:7.4, free:true, lp:'bottom'},
+  {name:'闪剪', x:33, y:7.0, free:true, lp:'right'},
+  {name:'可灵AI', x:66, y:8.1, free:true, lp:'right'},
+  {name:'阿里云万相数字人', x:100, y:7.7, free:true, lp:'top'},
+  {name:'KreadoAI', x:138, y:7.3, free:true, lp:'bottom'},
+  {name:'商汤如影', x:158, y:8.2, free:true, lp:'top'},
+  {name:'万兴播爆', x:169, y:7.6, free:true, lp:'top'},
+  {name:'蝉镜', x:198, y:7.2, free:true, lp:'right'},
+  {name:'来画', x:198, y:6.9, free:true, lp:'bottom'},
+  {name:'百度曦灵', x:199, y:7.9, free:true, lp:'right'},
+  {name:'阿里云DVH', x:250, y:7.4, free:false, lp:'top'},
+  {name:'奇妙元', x:298, y:7.0, free:true, lp:'left'}
+];
+
+const TIMELINE = [
+  {when:'2025.05', what:'华为云 MetaStudio 数字人整体降价', why:'形象制作从 8000 元/个降到 5999 元/个、视频制作从 16 元/分钟降到 10 元/分钟，600 分钟套餐从 5760 元降到 3600 元；随后 Flexus 数字人把一次性门槛压到 999 元，成为云厂价格下探的标志。', hot:false},
+  {when:'2025.06', what:'腾讯智影暂停服务，C 端通用数字人工具退潮', why:'腾讯智影自 2025 年 4 月 15 日起停止新用户注册，6 月 30 日进行平台改造并清空用户数据，公众号已注销。腾讯的数字人能力随后收拢到腾讯云智能数智人（TCADH）等 B 端产品线。', hot:true},
+  {when:'2025.11', what:'首个数字人国家标准正式发布', why:'由商汤牵头制定的数字人领域首个国家标准发布，为形象、语音与交互能力建立统一技术规范与测试依据，行业从「效果各自表述」走向可比较评估。', hot:true},
+  {when:'2025.12', what:'京东数字人直播免费向所有商家开放', why:'京东宣布数字人直播免费向全体商家开放，原标准服务价值 3 万元/年；同期上线数字人通用基座大模型，把数字人从售卖工具变为电商基础设施。', hot:true},
+  {when:'2026.05', what:'百度「慧播星」升级为「百度一镜」全场景数字人平台', why:'Create 2026 百度 AI 开发者大会上，慧播星升级为集数字人直播、数字人视频与实时互动于一体的多智能体数字人平台，由剧本生成、视频生成、智能剪辑三个 Agent 协同，海外版同步上线。', hot:false},
+  {when:'2026.05', what:'美图「开拍」上线数字人 2.0', why:'数字人 2.0 在动作连贯性、面部微表情与实景融合上明显提升，支持更自然的口播与直播表达，推动 C 端口播工具从「能出镜」转向「像真人」。', hot:false},
+  {when:'2026.09', what:'快手可灵 AI 单季营收超 8.5 亿元', why:'快手 2026 年第二季度业绩显示可灵 AI 单季营收超过 8.5 亿元、同比增长超 200%，成为数字人与视频生成赛道规模变现的代表，验证订阅加积分的商业模式成立。', hot:true}
+];
+
+const VERIFIED = [
+  {name:'腾讯智影', verdict:'<span class="tag">已停服</span>', note:'2025 年 4 月 15 日起停止新用户注册，6 月 30 日平台改造并清空用户数据，微信公众号已注销。腾讯的数字人能力现由腾讯云智能数智人（TCADH）等 B 端产品承接。信源：<a class="ext" href="https://www.36kr.com/p/3609375496160513">36 氪《25 个火过的国产 AI 应用，凉了》</a>、<a class="ext" href="http://news.qq.com/rain/a/20250905A06W5T00">腾讯新闻转载</a>。'},
+  {name:'小冰', verdict:'<span class="tag">有产品</span>', note:'2019 年提出 AI Being 理念，现有数字专家与数字员工产品线；第三代深度神经网络渲染模型据官方称仅需 20 分钟有效数据即可生成数字人，支持零样本克隆与实时交互，已取得大模型备案。信源：<a class="ext" href="https://business.xiaoice.com/Home/AIBeing">小冰商业解决方案-数字人</a>、<a class="ext" href="https://www.xiaoice.com/NewsAndContacts">小冰新闻及联络</a>。'},
+  {name:'美图', verdict:'<span class="tag">有产品</span>', note:'旗下「开拍」为 AI 口播视频工具，2026 年 5 月上线数字人 2.0，支持更自然的动作与微表情；美图同时提供 DreamAvatar 等虚拟形象能力。信源：<a class="ext" href="http://caijing.chinadaily.com.cn/a/202605/12/WS6a029033a310942cc49abc08.html">中国日报网《美图开拍上线数字人 2.0》</a>、<a class="ext" href="https://www.kaipai.com/">开拍官网</a>。'},
+  {name:'360', verdict:'<span class="tag">有产品</span>', note:'360 AI 数字人（360 亿方智能）提供交互型数字人、短视频数字人与直播数字人三类，基于 360 智脑大模型，主打全类型文档自主训练与政企客服场景；官网仅提供留资定制，未公示价格与免费额度。信源：<a class="ext" href="https://aiplus.360.cn/adh">360 AI 数字人官网</a>。'},
+  {name:'阿里（通义 / 百炼）', verdict:'<span class="tag">有产品，多线并行</span>', note:'阿里云提供万相数字人平台（会员加积分订阅制，标准会员 100 元/月）与虚拟数字人 DVH（3D 流媒体 5749 元/月/路、2D 实时交互 250 元/月/设备、形象定制 6999 元/次）；百炼上线 wan2.2-s2v 数字人视频生成模型。信源：<a class="ext" href="https://help.aliyun.com/zh/avatar/avatar-application/product-overview/avatar-membership-subscriptions-and-credits-packages">阿里云成员套餐与积分包</a>、<a class="ext" href="https://help.aliyun.com/zh/avatar/avatar/product-overview/pricing">DVH 计费项</a>。'},
+  {name:'火山引擎 / 字节系', verdict:'<span class="tag">有产品，多线并行</span>', note:'火山引擎即梦 AI 提供 OmniHuman1.5 数字人与「数字人快速模式」（1 元/秒），图像生成大模型的数字人能力 0.1 元/秒并有 200 秒免费试用；抖音来客为本地生活商家提供 AI 数字人直播工具。信源：<a class="ext" href="https://www.volcengine.com/docs/85621/1544715">即梦 AI 视频生成计费说明</a>、<a class="ext" href="https://www.volcengine.com/docs/86081/1804568">图像生成大模型计费说明</a>。'},
+  {name:'元象 XVERSE', verdict:'<span class="tag">非数字人产品</span>', note:'主营 3D 引擎、元宇宙空间与开源大模型（XVERSE 系列），公开产品线为 3D 内容引擎、数字人与 AI NPC 能力以 SDK 形式提供，未检索到独立在营的数字人产品。信源：<a class="ext" href="https://www.xverse.cn/">元象官网</a>。'},
+  {name:'联汇科技', verdict:'<span class="tag">非数字人产品</span>', note:'现定位多模态大模型与具身智能体（OmAgent、端侧多模态模型），公开产品线为智能体平台与端侧模型，未见面向内容生产或直播的数字人产品。信源：<a class="ext" href="https://www.hzlh.com/">联汇科技官网</a>。'},
+  {name:'网易伏羲 / 有灵', verdict:'<span class="tag">部分具备，待确认</span>', note:'「有灵」现为面向游戏 AI、智能制造与数据采标的人机协作智能体平台；第三方企服平台曾列出「有灵虚拟人」报价（企业 AI 高级版 6998 元/年），但官网未见独立数字人产品页，本轮按待确认处理。信源：<a class="ext" href="https://fuxi.163.com/">网易伏羲官网</a>、<a class="ext" href="https://m.36dianping.com/vs/rh63.html">36 氪企服点评</a>。'},
+  {name:'彩云小梦 / 逆天剪辑', verdict:'<span class="tag">无数字人能力</span>', note:'彩云小梦为 AI 小说与角色对话产品，逆天剪辑为视频剪辑工具，两者均未检索到数字人产品线，本轮未纳入主表。信源见待确认清单说明。'}
+];
+
+const SOURCES = [
+  {p:"商汤如影 SenseAvatar", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://senseavatar.sensetime.com/\">商汤如影官网</a>","产品定位、免费额度（注册赠 5 分钟）、形象与音色数量"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.sensetime.com/cn/faq/\">商汤科技官网常见问题</a>","开发方、如影业务范围"],
+    ["用户社区","<a class=\"ext\" href=\"https://apps.apple.com/cn/app/%E5%A6%82%E5%BD%B1-ai%E6%95%B0%E5%AD%97%E4%BA%BA%E8%A7%86%E9%A2%91/id6445884771\">App Store 如影 - AI 数字人视频</a>","价格档位（20 分钟 98 元、100 分钟 398 元、VIP 会员 1898 元/年）"]
+  ]},
+  {p:"百度一镜（原慧播星）", items:[
+    ["科技媒体","<a class=\"ext\" href=\"https://www.news.cn/info/20260513/5c28f6e56ef3497e81fa7d0106e5c12d/c.html\">新华网：百度慧播星升级为「百度一镜」</a>","产品升级时点、定位、海外版"],
+    ["科技媒体","<a class=\"ext\" href=\"https://36kr.com/p/3818875689813128\">36 氪：百度一镜能否让数字人出圈</a>","产品沿革、定位"],
+    ["官方站点","<a class=\"ext\" href=\"https://huibo.baidu.com/\">百度一镜（原慧播星）官网入口</a>","官方入口、功能模块（数字人直播 / 视频 / 实时互动 / 形象制作 / 声音复刻）"],
+    ["用户社区","<a class=\"ext\" href=\"https://www.iesdouyin.com/share/video/7689038107244629267\">抖音实测视频：百度一镜 AI 数字人</a>","价格口径（用已有形象生成约 2 分钟口播约 0.9 元）"]
+  ]},
+  {p:"即梦AI 数字人（OmniHuman）", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://www.volcengine.com/docs/85621/1544715\">火山引擎：即梦 AI 视频生成计费说明</a>","价格（数字人快速模式 1 元/秒）"],
+    ["官方文档","<a class=\"ext\" href=\"https://www.volcengine.com/docs/86081/1804568\">火山引擎：图像生成大模型计费说明</a>","免费额度（免费试用 200 秒）、0.1 元/秒"],
+    ["官方文档","<a class=\"ext\" href=\"https://www.volcengine.com/docs/85621/1834143\">火山引擎：即梦 AI 产品介绍</a>","OmniHuman1.5 计费（1 元/秒）、并发限额"]
+  ]},
+  {p:"可灵AI（Avatar 对口型）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://klingai.com/\">可灵 AI 官网</a>","官方入口、会员档位与灵感值"],
+    ["官方站点","<a class=\"ext\" href=\"https://ir.kuaishou.com/zh-hans/news-releases/news-release-details/kuaishoukelingaixiangquanqiuyonghuquanmiankaifangneice\">快手投资者关系：可灵 AI 会员体系</a>","会员档位（黄金 66 元、铂金 266 元、钻石 666 元/月）"],
+    ["用户社区","<a class=\"ext\" href=\"https://apps.apple.com/cn/app/%E5%8F%AF%E7%81%B5ai-ai%E5%9B%BE%E7%89%87-%E8%A7%86%E9%A2%91%E5%88%9B%E4%BD%9C%E5%B7%A5%E5%85%B7/id6670396916\">App Store 可灵 AI</a>","人民币价格口径（黄金会员 66 元/月）"]
+  ]},
+  {p:"讯飞智作", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://peiyin.xunfei.cn/seospread/ai3/index.html\">讯飞智作官网</a>","产品定位与功能"],
+    ["官方文档","<a class=\"ext\" href=\"https://www.xfyun.cn/solutions/Multimodel\">讯飞开放平台：超拟人数字人交互</a>","免费额度（个人免费包 2 小时 / 90 天，企业免费包 10 小时）"],
+    ["官方文档","<a class=\"ext\" href=\"https://www.xfyun.cn/services/smart-tts/\">讯飞开放平台：语音合成</a>","语音能力与免费礼包"]
+  ]},
+  {p:"来画（数字人播报）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.laihua.com/workplace/meta-vip\">来画：数字人会员</a>","价格（数字人会员 4.1 元/分钟起）"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.laihua.com/workplace/digit-broadcast\">来画：数字人播报</a>","价格（16 元/分钟）、功能定位"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.laihua.com/workplace/pricing\">来画：会员价格</a>","免费版口径、动画会员 398 元/年"]
+  ]},
+  {p:"万兴播爆 Virbo", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://virbo.wondershare.cn/\">万兴播爆中文官网</a>","产品定位、免费额度（每日免费导出 2 次）"],
+    ["用户社区","<a class=\"ext\" href=\"https://apps.apple.com/cn/app/%E4%B8%87%E5%85%B4%E6%92%AD%E7%88%86/id1659013578\">App Store 万兴播爆</a>","人民币价格（月度会员 198 元、专业会员连续包月 169 元）"],
+    ["官方站点","<a class=\"ext\" href=\"https://virbo.wondershare.com/store/buy-virbo-year.html\">Wondershare Virbo 订阅页</a>","海外档位对照（Essential 44.9 美元/年）"]
+  ]},
+  {p:"闪剪（数字人定制）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.shanjian.tv/pricing/\">闪剪价格页</a>","价格（基础版 398 元/年、标准会员 479 元/月）"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.shanjian.tv/\">闪剪官网</a>","产品定位、免费体验入口"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.shanjian.tv/ziyuan/blog/shuziren-10/\">闪剪博客：数字人定制说明</a>","会员版本划分与无限克隆口径"]
+  ]},
+  {p:"蝉镜数字人", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.chanjing.cc/member\">蝉镜会员页</a>","免费额度（60 蝉豆）、价格"],
+    ["官方文档","<a class=\"ext\" href=\"https://doc.chanjing.cc/help-center/billing/membership-plans-and-benefits\">蝉镜帮助中心：会员套餐与权益</a>","版本划分与权益"],
+    ["用户社区","<a class=\"ext\" href=\"https://juejin.cn/post/7437007112197832755\">掘金：蝉镜数字人免费版实测</a>","免费版能力口径"],
+    ["用户社区","<a class=\"ext\" href=\"https://cloud.tencent.cn/developer/article/2647611\">腾讯云开发者社区：数字人产品价格盘点</a>","基础版 198 元/月对照"]
+  ]},
+  {p:"开拍（数字人 2.0）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.kaipai.com/pricing\">开拍价格页</a>","价格（SVIP 89 元/月、699 元/年）"],
+    ["用户社区","<a class=\"ext\" href=\"https://apps.apple.com/cn/app/id6446305602\">App Store 开拍</a>","VIP 价格（连续包月 30 元、连续包年 238 元）"],
+    ["科技媒体","<a class=\"ext\" href=\"http://caijing.chinadaily.com.cn/a/202605/12/WS6a029033a310942cc49abc08.html\">中国日报网：美图开拍数字人 2.0</a>","数字人 2.0 能力与上线时点"]
+  ]},
+  {p:"KreadoAI", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://kreadoai.com/zh/price\">KreadoAI 价格页</a>","价格（基础版 138 元/月、高级版 427 元/月）"],
+    ["官方文档","<a class=\"ext\" href=\"https://help.kreadoai.com/zh-CN/articles/8696929-K%E5%B8%81%E6%B6%88%E8%B4%B9-%E5%85%85%E5%80%BC%E4%B8%8E%E8%B5%9A%E5%8F%96%E8%A7%84%E5%88%99\">KreadoAI 帮助中心：K 币规则</a>","免费额度（注册赠 180 K 币）"],
+    ["科技媒体","<a class=\"ext\" href=\"http://finance.ce.cn/stock/gsgdbd/202604/t20260425_2929475.shtml\">中国经济网：昆仑万维 AI 业务</a>","开发方（昆仑万维）"]
+  ]},
+  {p:"阿里云 万相数字人平台", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://help.aliyun.com/zh/avatar/avatar-application/product-overview/avatar-membership-subscriptions-and-credits-packages\">阿里云：成员套餐与积分包</a>","免费额度（免费会员每月 100 积分）、价格（标准会员 100 元/月、高级会员 300 元/月）"],
+    ["官方文档","<a class=\"ext\" href=\"https://help.aliyun.com/zh/model-studio/wan-s2v-overview/\">阿里云百炼：wan2.2-s2v 介绍</a>","对口型数字人模型能力与单价（480P 0.5 元/秒）"],
+    ["用户社区","<a class=\"ext\" href=\"https://cloud.tencent.com/developer/article/2647611\">腾讯云开发者社区：数字人价格盘点</a>","横向价格对照"]
+  ]},
+  {p:"京东数字人（言犀）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://jdai.jd.com/portal/ai-products/yanxi-human\">京东 JoyAI 言犀数字人产品页</a>","产品定位、开发方"],
+    ["官方站点","<a class=\"ext\" href=\"https://fw.jd.com/main/detail/FW_GOODS-1776411\">京东服务市场：数字人直播商品页</a>","价格（正价版 3 万元/年、特惠版 9580 元）"],
+    ["科技媒体","<a class=\"ext\" href=\"http://www.chinanews.com/cj/2025/12-02/10525612.shtml\">中国新闻网：京东数字人直播免费开放</a>","免费额度（向商家免费开放、原价值 3 万元/年）"],
+    ["科技媒体","<a class=\"ext\" href=\"https://developer.jdcloud.com/article/3530\">京东云开发者社区：言犀多模态数字人</a>","落地规模（服务超 4000 品牌、联想 AI 主播 GMV 数据）"]
+  ]},
+  {p:"华为云 MetaStudio（Flexus 数字人）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.huaweicloud.com/product/metastudio.html\">华为云 MetaStudio 产品页</a>","产品定位、能力范围"],
+    ["官方文档","<a class=\"ext\" href=\"https://support.huaweicloud.com/bulletin-metastudio/metastudio_10_0001.html\">华为云：数字内容生产线计费价格调整公告</a>","价格（形象制作 5999 元/个、视频制作 10 元/分钟）"],
+    ["官方文档","<a class=\"ext\" href=\"https://support.huaweicloud.com/productdesc-metastudio/metastudio_01_0006.html\">华为云：MetaStudio 计费说明</a>","免费额度（5GB 资产存储）、计费方式"],
+    ["用户社区","<a class=\"ext\" href=\"https://bbs.huaweicloud.cn/blogs/446443\">华为云社区：MetaStudio 数字人 DTSE 问答</a>","Flexus 数字人 999 元套餐、无需续费"]
+  ]},
+  {p:"奇妙元", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://weta365.com/memberIndex\">奇妙元会员页</a>","免费额度（30 秒合成试用）、会员 298 元/月"],
+    ["官方站点","<a class=\"ext\" href=\"https://weta365.com/broadcastCenter\">奇妙元直播中心</a>","直播能力（云渲染长时间开播）"],
+    ["科技媒体","<a class=\"ext\" href=\"https://g.pconline.com.cn/ai/product/6250.html\">太平洋科技：奇妙元</a>","价格（298 元/月、真人形象定制 8000 元起）"]
+  ]},
+  {p:"风平智能 IP 智造", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://fullpeace.cn/\">风平智能官网</a>","产品定位、免费口径（公版数字人免费使用）"],
+    ["官方站点","<a class=\"ext\" href=\"https://market.cloud.tencent.com/products/39252\">腾讯云市场：风平 IP 智造</a>","价格（9800 元/年起）"],
+    ["科技媒体","<a class=\"ext\" href=\"https://www.woshipm.com/it/5970979.html\">人人都是产品经理：数字人厂商格局</a>","行业据测（与硅基智能并称头部）"]
+  ]},
+  {p:"中科深智（云小七 / 旺客播）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.deepscience.cn/\">中科深智官网</a>","产品线（DoKOL、旺客播）与定位"],
+    ["官方站点","<a class=\"ext\" href=\"https://deepscience.cn/ai-digital-human.html\">中科深智：AI 数字人</a>","云小七等数字人产品能力"],
+    ["科技媒体","<a class=\"ext\" href=\"https://startup.aliyun.com/city/yy/case/1773644489508413442.html\">阿里云创新中心：中科深智案例</a>","全能智播与直播方案"]
+  ]},
+  {p:"硅基智能（DUIX / HeyGem）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.guiji.cn/\">硅基智能官网</a>","开发方、产品线与官方入口"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.duix.com/pricing\">DUIX 定价页</a>","订阅价格（59 美元/月起）"],
+    ["开源社区","<a class=\"ext\" href=\"https://heygem.ai/\">HeyGem.ai 开源站点</a>","免费额度（开源版免费本地部署、10 秒视频克隆）"],
+    ["科技媒体","<a class=\"ext\" href=\"https://36kr.com/p/3559946759748744\">36 氪：硅基智能招股书</a>","价格（形象克隆 0.55 万–2.5 万元档位）"]
+  ]},
+  {p:"小冰（AI Being / 数字员工）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://business.xiaoice.com/Home/AIBeing\">小冰商业解决方案：数字人</a>","产品线、20 分钟数据生成能力"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.xiaoice.com/NewsAndContacts\">小冰：新闻及联络</a>","大模型备案、零样本技术"],
+    ["科技媒体","<a class=\"ext\" href=\"https://epaper.bbtnews.com.cn/site1/bjsb/images/2023-06/02/04/2023060204_pdf.pdf\">北京商报：小冰克隆人商业化</a>","C 端克隆人价格（6–30 元/月）"]
+  ]},
+  {p:"阿里云 虚拟数字人 DVH", items:[
+    ["官方文档","<a class=\"ext\" href=\"https://help.aliyun.com/zh/avatar/avatar/product-overview/pricing\">阿里云：虚拟数字人计费项</a>","价格（3D 数字人流媒体 5749 元/月/路）"],
+    ["官方文档","<a class=\"ext\" href=\"https://help.aliyun.com/zh/avatar/avatar-application/product-overview/price-videochat-2d\">阿里云：2D 实时交互计费</a>","价格（250 元/月/设备授权）"],
+    ["官方文档","<a class=\"ext\" href=\"https://help.aliyun.com/en/ims/digital-human-and-voice-cloning-1\">阿里云：数字人与声音克隆</a>","形象定制 6999 元/次、能力范围"]
+  ]},
+  {p:"腾讯云智能数智人（TCADH）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://cloud.tencent.com/product/ivh\">腾讯云智能数智人产品页</a>","产品定位、官方入口、能力"],
+    ["官方文档","<a class=\"ext\" href=\"https://cloud.tencent.com/document/product/1240/101944\">腾讯云智能数智人：价格指南</a>","价格（3D 卡通 3500 元/月/路、写实 6750 元/月/路）"],
+    ["官方文档","<a class=\"ext\" href=\"https://www.tencentcloud.com/document/product/1211/60662\">Tencent Cloud AI Digital Human Pricing Guide</a>","2D 小样本专属口型 500 美元/月/路"]
+  ]},
+  {p:"百度智能云 曦灵数字人", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://xiling.cloud.baidu.com/\">百度智能云曦灵</a>","官方入口、功能模块"],
+    ["官方文档","<a class=\"ext\" href=\"https://bce-cdn.bj.bcebos.com/p3m/pdf/bce-doc/online/AI_DH/AI_DH.pdf\">百度智能云：曦灵数字人开放平台使用指南</a>","价格（2D 小样本定制 2000 元/次、生成时长包 30 元/10 分钟）"],
+    ["用户社区","<a class=\"ext\" href=\"https://cloud.tencent.com/developer/article/2647611\">腾讯云开发者社区：数字人价格盘点</a>","3D 超写实 199 元/月起、高级套餐 699 元/月"],
+    ["科技媒体","<a class=\"ext\" href=\"https://c.m.163.com/news/a/J5KNF8JM051180F7.html\">网易新闻：百度曦灵数字人定制报价</a>","2D 数字分身 3000 元、3D 定制 12000 元"]
+  ]},
+  {p:"魔珐有言（youyan3d）", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://www.youyan3d.com/subscribe\">魔珐有言订阅套餐</a>","价格档位与版本划分"],
+    ["官方文档","<a class=\"ext\" href=\"https://www.youyan3d.com/help-center/40-136.html\">有言帮助中心：名词概念</a>","免费额度（个人体验版赠 900 言币，有效期 14 天）"],
+    ["官方站点","<a class=\"ext\" href=\"https://www.youyan3d.com/ai-avatar-video-generation\">有言 AI 视频生成</a>","产品定位、免费体验说明"],
+    ["科技媒体","<a class=\"ext\" href=\"http://cnews.chinadaily.com.cn/a/202601/13/WS6965ddb2a310942cc499b0e7.html\">中国日报网：魔珐科技 3D 数字人</a>","公司背景与成本优势"]
+  ]},
+  {p:"360 AI 数字人", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://aiplus.360.cn/adh\">360 AI 数字人官网</a>","产品线（交互型 / 短视频 / 直播）、能力"],
+    ["官方站点","<a class=\"ext\" href=\"https://ai.360.com/\">360 智脑大模型</a>","技术底座"],
+    ["官方站点","<a class=\"ext\" href=\"https://ai.360.cn/\">360 AI 应用中心</a>","产品入口"]
+  ]},
+  {p:"网易伏羲 有灵虚拟人", items:[
+    ["官方站点","<a class=\"ext\" href=\"https://fuxi.163.com/\">网易伏羲官网</a>","平台定位与虚拟人技术"],
+    ["官方站点","<a class=\"ext\" href=\"https://fuxi.netease.com/youling-agent-platform\">有灵智能体平台</a>","现有产品线（智能体方向）"],
+    ["用户社区","<a class=\"ext\" href=\"https://m.36dianping.com/vs/rh63.html\">36 氪企服点评：有灵虚拟人</a>","价格口径（企业 AI 高级版 6998 元/年）"]
+  ]}
+];
+
+const TODOS = [
+  ["腾讯智影","是否永久停服、用户数据与会员权益处理方案，官方仅提示「服务升级维护」，未发布正式停服声明与退款安排。"],
+  ["火山引擎即梦（个人端）","面向个人用户的即梦 App 内数字人会员价格未在官方页面公示，当前仅有 API 按量价格（数字人 0.1 元/秒、OmniHuman1.5 与数字人快速模式 1 元/秒），个人端价格待确认。"],
+  ["腾讯云智能数智人","无公开免费额度；2D 小样本形象报价以美元刊例（500 美元/月/路）给出，无人民币官方档位，价格需商务询价换算。"],
+  ["百度一镜","个人端定价与免费额度未公示，现有价格口径来自媒体报道与用户实测（约 0.9 元/条、SaaS 标准版约 2529 元起），需以官方报价为准。"],
+  ["中科深智（云小七 / 旺客播）","官网未公示价格与免费额度，仅提供企业定制与私有化报价，需商务询价。"],
+  ["360 AI 数字人","官网未公示价格与免费额度，仅提供留资定制，无法给出人民币档位。"],
+  ["奇妙元真人形象定制","8000 元起为媒体口径，官网未公示成品定制分级报价，实际价格需商务确认。"],
+  ["网易伏羲有灵虚拟人","第三方企服平台列出报价（企业 AI 高级版 6998 元/年、臻享版 11998 元/年），但官网已转向智能体与具身智能叙事，产品在营状态与报价待官方确认。"],
+  ["京东数字人免费政策","免费开放的具体截止时间各渠道口径不一（有「截至 2026 年 12 月 31 日」的说法），应以京麦 / 京东服务市场页面为准。"],
+  ["万兴播爆中文站定价","人民币价格主要来自 App Store 内购页（月度会员 198 元、专业会员连续包月 169 元），官网完整人民币定价页未取得。"],
+  ["华为云 MetaStudio 免费额度","仅有 5GB 资产存储免费，视频合成无免费额度；Flexus 数字人 999 元为限时优惠价，长期价格待确认。"],
+  ["彩云小梦","为 AI 小说与角色对话产品，未检索到数字人产品线，本轮未纳入主表。"],
+  ["逆天剪辑","为视频剪辑工具，未检索到数字人产品线，本轮未纳入主表。"],
+  ["魔珐有言个人体验版有效期","900 言币有效期 14 天为帮助中心口径，活动赠送额度与时效可能变动，以注册页为准。"]
+];
+
+/* ================= 渲染：总表 ================= */
+const CAT = {video:'口播视频', live:'直播数字人', clone:'形象克隆', interactive:'交互式数字人'};
+const CAT_TAG = {video:'cat-video', live:'cat-live', clone:'cat-clone', interactive:'cat-interactive'};
+const tableEl = document.getElementById('mainTable');
+PRODUCTS.forEach(function(p){
+  const availTag = p.avail === 'free'
+    ? '<span class="tag free">可免费使用</span>'
+    : '<span class="tag paid">付费或仅 API</span>';
+  const catTag = '<span class="tag ' + CAT_TAG[p.cat] + '">' + CAT[p.cat] + '</span>';
+  const scoreHtml = (p.score === null)
+    ? '<span class="score na">—</span>'
+    : '<span class="score">' + p.score.toFixed(1) + '</span>';
+  const priceHtml = p.price + (p.cny ? '<span class="note-inline" style="display:block;margin-top:3px">' + p.cny + '</span>' : '');
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td data-label="产品 / 开发方"><span class="pname">' + p.name + '</span><span class="dev">' + p.dev + '</span><span style="display:block;margin-top:6px">' + catTag + availTag + '</span></td>' +
+    '<td data-label="评分">' + scoreHtml + '</td>' +
+    '<td data-label="评分依据"><span class="basis">' + p.basis + '</span></td>' +
+    '<td data-label="官方入口"><a class="ext" href="' + p.site.url + '">' + p.site.label + '</a></td>' +
+    '<td data-label="免费额度">' + p.free + '</td>' +
+    '<td data-label="价格">' + priceHtml + '</td>' +
+    '<td data-label="特点与局限">' + p.note + '</td>';
+  tableEl.appendChild(tr);
+});
+document.getElementById('tableCaption').textContent =
+  '注：评分为主观共识评分（满分 10），非厂商官方指标。价格与免费额度均以 2026-10-07 公开信息为准；标注「待确认」表示本轮未取得可靠官方口径。';
+
+/* ================= 渲染：时间线 ================= */
+const tlEl = document.getElementById('timeline');
+TIMELINE.forEach(function(t){
+  var d = document.createElement('div');
+  d.className = 'tnode' + (t.hot ? ' hot' : '');
+  d.innerHTML = '<div class="when">' + t.when + '</div><div class="axis"><i class="dot"></i></div>' +
+                '<div class="body"><p class="what">' + t.what + '</p><p class="why">' + t.why + '</p></div>';
+  tlEl.appendChild(d);
+});
+
+/* ================= 渲染：核验表 ================= */
+const vEl = document.getElementById('verifyTable');
+VERIFIED.forEach(function(v){
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td data-label="厂商 / 产品"><span class="pname">' + v.name + '</span></td>' +
+                 '<td data-label="核验结论">' + v.verdict + '</td>' +
+                 '<td data-label="说明">' + v.note + '</td>';
+  vEl.appendChild(tr);
+});
+
+/* ================= 渲染：信源索引 ================= */
+const srcEl = document.getElementById('sourceIndex');
+SOURCES.forEach(function(g){
+  var h = document.createElement('div');
+  h.className = 'srcgrp';
+  var rows = g.items.map(function(it){
+    var link = /^https?:/.test(it[1]) ? '<a class="ext" href="' + it[1] + '">' + it[1] + '</a>' : it[1];
+    link = link.replace(/・/g, '<br>');
+    return '<li class="srcitem">' +
+           '<span class="srclabel">' + it[0] + '</span>' +
+           '<span class="srcbody">' + link +
+           '<span class="srcfield">支撑字段：' + it[2] + '</span></span></li>';
+  }).join('');
+  h.innerHTML = '<h3>' + g.p + '</h3><ul class="srclist">' + rows + '</ul>';
+  srcEl.appendChild(h);
+});
+
+/* ================= 渲染：待确认 ================= */
+const todoEl = document.getElementById('todoList');
+TODOS.forEach(function(t, i){
+  var d = document.createElement('div');
+  d.className = 't';
+  d.innerHTML = '<div class="n">' + (i + 1) + '</div><div class="c"><b>' + t[0] + '：</b>' + t[1] + '</div>';
+  todoEl.appendChild(d);
+});
+
+/* ================= ECharts ================= */
+var C = {primary:'#12564C', accent:'#C4762A', ink:'#1F2329', ink2:'#646A73', ink3:'#8A939B', line:'#DEE3E8'};
+var CAT_COLOR = {video:'#12564C', live:'#C4762A', clone:'#4E7BA6', interactive:'#7C8A5A'};
+var FONT = '"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif';
+
+function renderScore(){
+  var el = document.getElementById('chartScore');
+  if(!el || typeof echarts === 'undefined') return;
+  var data = PRODUCTS.filter(function(p){return p.score !== null;})
+                     .slice().sort(function(a,b){return a.score - b.score;});
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:72, top:18, bottom:34, containLabel:true},
+    tooltip:{
+      trigger:'axis', axisPointer:{type:'shadow'},
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var i = ps[0].dataIndex, p = data[i];
+        return '<b>' + p.name + '</b><br/>综合评分：' + p.score.toFixed(1) + ' / 10<br/>品类：' + CAT[p.cat] +
+               '<br/>开发者：' + p.dev + '<br/>评分依据：' + p.basis;
+      }
+    },
+    xAxis:{
+      type:'value', min:0, max:10, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'category',
+      data:data.map(function(p){return p.name;}),
+      axisLine:{show:false}, axisTick:{show:false},
+      axisLabel:{color:C.ink, fontFamily:FONT, fontSize:13.5}
+    },
+    series:[{
+      type:'bar', barWidth:'58%',
+      data:data.map(function(p){
+        return {
+          value:p.score,
+          itemStyle:{color:CAT_COLOR[p.cat], borderRadius:[0,3,3,0]}
+        };
+      }),
+      label:{
+        show:true, position:'right', fontFamily:FONT, fontSize:13.5,
+        fontWeight:'bold', color:C.ink, formatter:function(ps){return ps.value.toFixed(1);}
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+function renderPrice(){
+  var el = document.getElementById('chartPrice');
+  if(!el || typeof echarts === 'undefined' || !PRICE_POINTS.length) return;
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:40, top:26, bottom:56, containLabel:true},
+    tooltip:{
+      trigger:'item',
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var d = ps.data, v = d.value;
+        return '<b>' + d.name + '</b><br/>最低付费月费：' + (v[0] === 0 ? '0（完全免费）' : '¥' + v[0] + '/月') +
+               '<br/>综合评分：' + v[1].toFixed(1);
+      }
+    },
+    xAxis:{
+      type:'value', min:-8, max:300,
+      axisLine:{lineStyle:{color:C.line}}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13, formatter:'{value}'},
+      name:'最低付费月费（元）', nameLocation:'middle', nameGap:34,
+      nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'value', min:6.4, max:9.2, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13},
+      name:'综合评分', nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    series:[{
+      type:'scatter',
+      symbolSize:16,
+      data:PRICE_POINTS.map(function(p){
+        return {
+          name:p.name,
+          value:[p.x, p.y],
+          free:p.free,
+          label:{position:p.lp, distance:10}
+        };
+      }),
+      itemStyle:{
+        color:function(ps){return ps.data.free ? C.primary : C.accent;},
+        borderColor:'#fff', borderWidth:1.5
+      },
+      label:{
+        show:true, fontFamily:FONT, fontSize:12.5, color:C.ink,
+        formatter:function(ps){return ps.data.name;}
+      },
+      markLine:{
+        silent:true, symbol:'none',
+        lineStyle:{color:C.primary, type:'dashed', width:1, opacity:.55},
+        label:{show:true, position:'insideEndTop', fontFamily:FONT, fontSize:12, color:C.primary,
+               formatter:'完全免费区'},
+        data:[{xAxis:0}]
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+renderScore();
+renderPrice();
+</script>
+
+</main>
+
+</body>
+</html>
