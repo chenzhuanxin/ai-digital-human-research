@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 数字人产品调研（2026 年 10 月）</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312564C'/%3E%3Ccircle cx='13' cy='13' r='5' fill='none' stroke='%23fff' stroke-width='2.2'/%3E%3Cpath d='M10.5 22.5c1.4-2 3.1-3 5-3s3.6 1 5 3' fill='none' stroke='%23C4762A' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<style>
+:root{
+  --ink:#1F2329;
+  --ink-2:#646A73;
+  --ink-3:#8A939B;
+  --line:#DEE3E8;
+  --line-2:#EDF1F4;
+  --primary:#12564C;
+  --primary-soft:#E8F0EE;
+  --accent:#C4762A;
+  --accent-soft:#FAEFE3;
+  --bg:#FFFFFF;
+  --bg-soft:#F7F9FA;
+  --serif:"Noto Serif SC","Songti SC",Georgia,"Microsoft YaHei",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-weight:400;font-size:16px;line-height:1.78;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+/* ===== 报头 ===== */
+.masthead{border-bottom:2px solid var(--ink);padding:56px 0 22px;margin-bottom:0;}
+.kicker{
+  font-size:13px;letter-spacing:.14em;color:var(--primary);
+  font-weight:700;margin:0 0 18px;text-transform:none;
+}
+h1.title{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(28px,4.6vw,50px);line-height:1.22;letter-spacing:-.01em;
+  margin:0 0 16px;max-width:20em;
+}
+.subtitle{font-size:17px;color:var(--ink-2);margin:0 0 26px;max-width:44em;line-height:1.7;}
+.meta-row{
+  display:flex;flex-wrap:wrap;gap:10px 34px;font-size:13.5px;color:var(--ink-2);
+  border-top:1px solid var(--line);padding-top:14px;
+}
+.meta-row b{color:var(--ink);font-weight:700;}
+
+.strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border-bottom:1px solid var(--line);margin-bottom:0;
+}
+.strip .cell{padding:22px 22px 22px 0;border-right:1px solid var(--line-2);}
+.strip .cell:last-child{border-right:0;}
+.strip .num{
+  font-family:var(--serif);font-weight:700;font-size:clamp(22px,3.1vw,34px);
+  color:var(--primary);line-height:1.1;font-variant-numeric:tabular-nums;
+}
+.strip .lbl{font-size:13px;color:var(--ink-2);margin-top:7px;line-height:1.55;}
+
+/* ===== 章节 ===== */
+section{padding:54px 0 8px;border-bottom:1px solid var(--line-2);}
+section:last-of-type{border-bottom:0;}
+h2.sec{
+  font-family:var(--serif);font-weight:700;font-size:clamp(21px,2.6vw,28px);
+  margin:0 0 8px;line-height:1.3;display:flex;gap:14px;align-items:baseline;
+}
+h2.sec .no{
+  font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.08em;
+  font-variant-numeric:tabular-nums;flex:none;padding-top:6px;
+}
+.lede{font-size:16.5px;color:var(--ink-2);max-width:46em;margin:0 0 26px;line-height:1.8;}
+p{margin:0 0 16px;}
+h3{font-family:var(--serif);font-weight:600;font-size:18.5px;margin:30px 0 12px;}
+
+/* ===== 表格 ===== */
+.tablewrap{overflow-x:auto;margin:0 0 10px;border:1px solid var(--line);}
+table{border-collapse:collapse;width:100%;table-layout:fixed;min-width:1120px;}
+thead th{
+  background:var(--bg-soft);text-align:left;font-weight:700;font-size:13.5px;
+  color:var(--ink-2);padding:12px 14px;border-bottom:1px solid var(--line);
+  vertical-align:bottom;line-height:1.5;
+}
+tbody td{
+  padding:14px;border-bottom:1px solid var(--line-2);vertical-align:top;
+  font-size:14px;line-height:1.68;overflow-wrap:anywhere;
+}
+tbody tr:last-child td{border-bottom:0;}
+tbody tr:hover{background:#FCFDFD;}
+.pname{font-weight:700;font-size:14.5px;}
+.dev{display:block;color:var(--ink-3);font-size:12.5px;margin-top:3px;line-height:1.5;}
+.score{
+  font-family:var(--serif);font-weight:700;font-size:19px;color:var(--primary);
+  font-variant-numeric:tabular-nums;display:block;
+}
+.score.na{color:var(--ink-3);font-size:15px;}
+.basis{display:block;color:var(--ink-3);font-size:12px;margin-top:5px;line-height:1.55;}
+a{color:var(--primary);text-decoration:none;border-bottom:1px solid rgba(18,86,76,.35);}
+a:hover{border-bottom-color:var(--primary);}
+a.ext::after{content:"↗";font-size:.78em;vertical-align:.18em;margin-left:2px;color:var(--ink-3);}
+.note-inline{color:var(--ink-3);font-size:12.5px;}
+.tag{
+  display:inline-block;font-size:12px;font-weight:700;line-height:1.5;
+  padding:1px 8px;border:1px solid var(--line);color:var(--ink-2);
+  background:var(--bg-soft);margin-bottom:6px;margin-right:4px;
+}
+.tag.cat-video{color:#0E4A41;background:#E8F0EE;border-color:#C9DCD6;}
+.tag.cat-live{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+.tag.cat-clone{color:#1F4E79;background:#E8EFF5;border-color:#C9D8E6;}
+.tag.cat-interactive{color:#4C5636;background:#EFF1E6;border-color:#D5DAC4;}
+.tag.free{color:#fff;background:var(--primary);border-color:var(--primary);}
+.tag.paid{color:#7A4712;background:var(--accent-soft);border-color:#E7D2B8;}
+ul.tight{margin:0;padding-left:18px;}
+ul.tight li{margin-bottom:5px;}
+
+/* ===== 图表 ===== */
+.chart-card{border:1px solid var(--line);padding:22px 20px 12px;margin:0 0 10px;background:var(--bg);}
+.chart-title{font-family:var(--serif);font-weight:600;font-size:16.5px;margin:0 0 4px;}
+.chart-sub{font-size:13px;color:var(--ink-2);margin:0 0 14px;line-height:1.62;}
+.chart{width:100%;height:520px;}
+.chart.tall{height:640px;}
+.caption{font-size:12.5px;color:var(--ink-3);line-height:1.7;margin:6px 0 0;}
+
+/* ===== 结论块 ===== */
+.findings{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);}
+.findings .f{padding:24px 24px 8px 0;border-right:1px solid var(--line-2);}
+.findings .f:last-child{border-right:0;padding-right:0;}
+.findings .f .t{font-family:var(--serif);font-weight:700;font-size:16.5px;margin:0 0 8px;line-height:1.5;}
+.findings .f p{font-size:14px;color:var(--ink-2);line-height:1.72;margin:0;}
+
+/* ===== 时间线 ===== */
+.timeline{margin:6px 0 0;position:relative;}
+.timeline::before{
+  content:"";position:absolute;top:11px;bottom:11px;
+  left:116.5px;width:1px;background:var(--line);
+}
+.tnode{display:grid;grid-template-columns:104px 26px 1fr;align-items:start;}
+.tnode .when{
+  font-size:13px;font-weight:700;color:var(--primary);text-align:right;
+  padding-right:10px;line-height:22px;font-variant-numeric:tabular-nums;
+}
+.tnode .axis{display:flex;justify-content:center;}
+.tnode .dot{position:relative;z-index:1;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--primary);margin-top:6px;}
+.tnode.hot .dot{background:var(--accent);border-color:var(--accent);}
+.tnode .body{padding:0 0 22px 14px;}
+.tnode:last-child .body{padding-bottom:0;}
+.tnode .what{font-weight:700;font-size:15px;margin:0 0 3px;line-height:1.55;}
+.tnode .why{font-size:14px;color:var(--ink-2);margin:0;line-height:1.7;}
+
+/* ===== 待确认 ===== */
+.todo{border-top:1px solid var(--line);}
+.todo .t{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line-2);}
+.todo .t .n{font-family:var(--serif);font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;font-size:15px;}
+.todo .t .c{font-size:14px;line-height:1.72;color:var(--ink);}
+.todo .t .c b{font-weight:700;}
+
+/* ===== 信源索引 ===== */
+.srcgrp{margin-bottom:28px;}
+.srcgrp h3{margin-top:0;}
+.srclist{margin:0;padding:0;}
+.srcitem{display:grid;grid-template-columns:112px 1fr;gap:12px;margin-bottom:12px;list-style:none;}
+.srclabel{font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;}
+.srcbody{font-size:14px;line-height:1.7;overflow-wrap:anywhere;}
+.srcfield{display:block;margin-top:2px;font-size:12.5px;color:var(--ink-3);}
+
+footer{padding:34px 0 56px;color:var(--ink-3);font-size:13px;line-height:1.8;}
+footer b{color:var(--ink-2);}
+
+@media (max-width:960px){
+  .strip{grid-template-columns:repeat(2,1fr);}
+  .strip .cell:nth-child(2){border-right:0;}
+  .strip .cell{border-bottom:1px solid var(--line-2);padding-right:16px;}
+  .strip .cell:nth-child(3),.strip .cell:nth-child(4){border-bottom:0;}
+  .findings{grid-template-columns:1fr;}
+  .findings .f{border-right:0;border-bottom:1px solid var(--line-2);padding:20px 0 14px;}
+  .findings .f:last-child{border-bottom:0;}
+  .tablewrap{border:0;overflow:visible;}
+  table{min-width:0;table-layout:auto;display:block;}
+  thead{display:none;}
+  tbody{display:block;}
+  tbody tr{display:block;border:1px solid var(--line);margin-bottom:14px;padding:4px 0;}
+  tbody td{display:grid;grid-template-columns:88px 1fr;gap:10px;border-bottom:1px solid var(--line-2);padding:10px 14px;font-size:13.5px;}
+  tbody td:last-child{border-bottom:0;}
+  tbody td::before{
+    content:attr(data-label);font-size:12.5px;color:var(--ink-3);font-weight:700;line-height:1.6;
+  }
+  .chart{height:640px;}
+  .chart.tall{height:840px;}
+  .tnode{grid-template-columns:78px 20px 1fr;}
+  .tnode .when{font-size:12px;padding-right:7px;}
+  .tnode .body{padding-left:10px;}
+  .timeline::before{left:87.5px;}
+  .meta-row{font-size:14px;}
+  .strip .lbl{font-size:13.5px;}
+  .findings .f p{font-size:14.5px;}
+  tbody td{font-size:14.5px;grid-template-columns:98px 1fr;}
+  tbody td::before{font-size:13px;}
+  .dev{font-size:14px;}
+  .tablewrap a.ext{display:inline-block;padding:10px 0;}
+  .srcitem{grid-template-columns:1fr;gap:2px;}
+  .srclabel{font-size:13px;}
+  .srcbody{font-size:14.5px;}
+  .kicker{font-size:14px;}
+  .strip .lbl{font-size:14px;}
+  .tag{font-size:14px;}
+  h2.sec .no{font-size:14px;}
+}
+@media (max-width:520px){
+  .wrap{padding:0 16px;}
+  .chart{height:720px;}
+  .tnode{grid-template-columns:66px 16px 1fr;}
+  .timeline::before{left:73.5px;}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">AI 数字人调研 · 海外（非中国大陆）· 2026 年 10 月口径</p>
+    <h1 class="title">海外 AI 数字人产品调研</h1>
+    <p class="subtitle">覆盖口播视频数字人、直播数字人、形象克隆与交互式数字人四类共 25 个在营产品：谁在做、能免费用多少、按什么价格卖、形象与语音的真实表现处在什么水位。国内产品由另一份报告覆盖，此处仅在核验章节作为对照出现。所有数字与网址均附可追溯来源。</p>
+    <div class="meta-row">
+      <span>数据口径：<b>截至 2026-10-07</b></span>
+      <span>计价货币：<b>USD（约合人民币 1 USD≈7.1 CNY）</b></span>
+      <span>信源交叉：<b>官方站点 / 科技媒体 / 用户社区</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="strip">
+    <div class="cell"><div class="num">25</div><div class="lbl">可评分产品（海外在营）</div></div>
+    <div class="cell"><div class="num">22</div><div class="lbl">含免费档 / 免费积分 / 免费试用</div></div>
+    <div class="cell"><div class="num">$19–29</div><div class="lbl">主流入门付费档月费（约 ¥135–206）</div></div>
+    <div class="cell"><div class="num">4</div><div class="lbl">覆盖产品品类数</div></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+<section>
+  <h2 class="sec"><span class="no">01</span>核心结论</h2>
+  <p class="lede">海外数字人赛道已经分成四条互不重叠的产品线：企业培训与口播视频（Synthesia、HeyGen、Colossyan）、单图或照片驱动的形象克隆（Hedra、D-ID、Argil）、实时对话的交互式数字人（Tavus、Anam、LemonSlice）以及极少数的直播数字人（Syntopia）。质量分层清晰、价格带从每月 5 美元延伸到上千美元，免费额度普遍存在但都很小。</p>
+  <div class="findings">
+    <div class="f"><p class="t">资本集中：头部拿钱、老牌出清</p><p>Synthesia 于 2026 年 1 月完成 2 亿美元 E 轮、估值 40 亿美元，由 Google Ventures 领投、英伟达 NVentures 继续跟投，累计融资超 5 亿美元；Captions（Mirage）2026 年 3 月获 7500 万美元增长融资、累计超 1.75 亿美元；Creatify 则以 900 万美元 ARR 完成 1550 万美元 A 轮。同期老牌厂商出清：Hour One 被 Wix 收购、Soul Machines 破产接管后由 AppDirect 接手。</p></div>
+    <div class="f"><p class="t">增量在交互式：定价从「按视频」转向「按分钟」</p><p>实时对话数字人是 2026 年最密集的新品方向：Tavus 官方称画面时延 134 毫秒、对话时延低于 600 毫秒；Anam 2026 年 7 月发布单图驱动的 Cara-4（25fps）；LemonSlice 以 1050 万美元种子轮推出 200 亿参数实时视频模型；Runway 5 月上线 Characters。这类产品几乎都按会话分钟计费（Simli 约 0.009–0.01 美元/分钟），与口播视频的「按积分」形成两套定价体系。</p></div>
+    <div class="f"><p class="t">免费额度是标配，真正的门槛是授权与合规</p><p>25 个产品里有 22 个提供免费档、免费积分或免费试用，但额度普遍很小且限制严格：HeyGen 免费档仅 1 分钟/条且带水印、ElevenLabs 免费档明确不可商用、Hedra 免费档仅限个人非商用。拉开差距的其实是形象授权流程——Synthesia 要求 Personal Avatar 必须由本人出镜录制同意视频，行业普遍引入活体校验，未授权的人脸克隆在合规上无法商用。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">02</span>产品字段总表</h2>
+  <p class="lede">同一行回答同一组问题：谁开发的、属于哪一类数字人、去哪用、免费用多少、按什么价格卖（海外产品以 USD 原值报价并附约合人民币）、质量与短板在哪。评分为主观共识评分，非厂商指标。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup>
+        <col style="width:15%"><col style="width:7%"><col style="width:13%">
+        <col style="width:12%"><col style="width:17%"><col style="width:16%"><col style="width:20%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>产品 / 开发方</th>
+          <th>评分</th>
+          <th>评分依据</th>
+          <th>官方入口</th>
+          <th>免费额度</th>
+          <th>价格</th>
+          <th>特点与局限</th>
+        </tr>
+      </thead>
+      <tbody id="mainTable">
+      </tbody>
+    </table>
+  </div>
+  <p class="caption" id="tableCaption"></p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">03</span>综合质量评分对比</h2>
+  <p class="lede">评分为主观共识评分，由作者综合科技媒体评测结论与用户社区口碑给出，满分 10 分。评估维度：形象真实度与一致性、口型与动作自然度、语音克隆/音质、生成稳定性、功能与生态完备度；四类产品（口播视频 / 直播 / 形象克隆 / 交互）按自身核心维度加权。</p>
+  <div class="chart-card">
+    <p class="chart-title">25 个海外数字人产品的综合质量评分（满分 10）</p>
+    <p class="chart-sub">颜色区分产品品类：深青为口播视频数字人，赭色为直播数字人，蓝为形象克隆，橄榄为交互式数字人。</p>
+    <div class="chart tall" id="chartScore"></div>
+    <p class="caption">数据口径：2026-10-07。评分非厂商官方指标。</p>
+  </div>
+  <p>第一梯队是 HeyGen（8.7）、Synthesia（8.6）、Tavus（8.4）与 ElevenLabs（8.3）：分别代表口播形象与口型的上限、企业级稳定性、实时交互的时延水平与语音克隆质量。7.6–8.2 是「单点强、生态或稳定性待补」的中间层（Anam 8.2、Hedra 8.1、DeepBrain AI 8.0、LemonSlice 8.0、Runway 8.0、Colossyan 7.9、Captions 7.9）。评分差异主要来自「形象真实度与一致性」和「生成稳定性」两项，语音克隆/音质的差距已经明显收窄。需要提示：四类产品不可直接互比——交互类考的是对话时延与打断处理，口播类考的是成片可用率，同分不代表同一能力。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">04</span>价格与免费额度的位置</h2>
+  <p class="lede">把「最低付费门槛」和「质量评分」放在同一坐标系，看免费与付费档的分布规律。</p>
+  <div class="chart-card">
+    <p class="chart-title">最低付费月费与质量评分的关系</p>
+    <p class="chart-sub">横轴为可查证的最低付费档月费（元/月，海外原价按 1 USD≈7.1 CNY 换算），纵轴为综合评分。仅纳入价格口径明确的在营产品。</p>
+    <div class="chart" id="chartPrice"></div>
+    <p class="caption">纵轴下限 6.4、横轴上限 ¥300：月费超过 ¥300 的条目（Tavus $59/月、Syntopia $780/月起、Beyond Presence €49/月≈$53）超出坐标范围，未纳入本图；无公开定价的 UneeQ 亦未纳入，原因见待确认清单。</p>
+  </div>
+  <p>低价入口集中在两类：照片驱动与实时渲染。D-ID Studio Lite（¥42/月）与 ElevenLabs Starter（¥43/月）把门槛压到每月 50 元以内，LemonSlice（¥57/月）与 Captions（¥71/月）紧随其后；最常见的入门档落在 ¥135–213 区间（Creatify ¥135、Virbo ¥141、Simli/Synthesys/Yepic ¥142、DeepBrain AI ¥170、Colossyan/Vidnoz ¥192、Fliki ¥199、HeyGen/Synthesia/Elai ¥206、Akool ¥213）。价格与评分没有稳定正相关：8.7 分的 HeyGen 与 7.0 分的 Vidnoz 入门档只差 14 元，说明分层来自形象真实度与工作流完整度，而非定价本身。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">05</span>2025—2026 关键节点</h2>
+  <p class="lede">按公开可查的发布、上线与策略变化时点排列，用于理解竞争格局是怎么形成的。</p>
+  <div class="timeline" id="timeline"></div>
+  <p style="margin-top:22px;">一年半之内，海外数字人赛道完成了两件事：头部厂商完成资本化与估值抬升（Synthesia 估值一年内翻倍至 40 亿美元），老牌企业级数字人完成一轮出清（Hour One 被 Wix 收购、Soul Machines 破产后被 AppDirect 接手）。与此同时，实时交互数字人在 2025 年底至 2026 年集中发布，成为新的竞争入口——谁能把「像人」的实时对话做进客服与销售流程，谁就拿到下一轮预算。</p>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">06</span>厂商 / 能力核验</h2>
+  <p class="lede">用户情报与检索中重点点名的厂商与方向，逐一给出核验结论；没有能力或无法核实就如实写。</p>
+  <div class="tablewrap">
+    <table>
+      <colgroup><col style="width:16%"><col style="width:16%"><col style="width:68%"></colgroup>
+      <thead>
+        <tr><th>厂商 / 产品</th><th>核验结论</th><th>说明</th></tr>
+      </thead>
+      <tbody id="verifyTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">07</span>信源索引</h2>
+  <p class="lede">按产品分组，标注每条来源支撑哪些字段。三类信源交叉验证：官方站点、科技媒体、用户社区（含应用商店）。</p>
+  <div id="sourceIndex"></div>
+</section>
+
+<section>
+  <h2 class="sec"><span class="no">08</span>待确认与无法核实项</h2>
+  <p class="lede">以下条目在本轮公开检索范围内无法取得可靠官方口径，如实列出，未作推测填补。</p>
+  <div class="todo" id="todoList"></div>
+</section>
+
+<footer>
+  <p><b>方法与免责：</b>本报告信息采集截止北京时间 2026 年 10 月 7 日，全部价格以人民币计（海外产品引用美元原值并约合人民币，按 1 USD ≈ 7.1 CNY 估算，欧元档位先按 €1 ≈ $1.08 折美元再换算，均为量级参考）。“数字人质量评分”为主观共识评分，由作者综合科技媒体评测结论与用户社区口碑给出，非厂商官方指标，也不等同于客观基准测试；同一产品在不同形象素材、语种与场景下表现差异较大。</p>
+  <p><b>已剔除的非官方来源：</b>第三方域名自称官方或提供更低报价的页面，均不作为官方依据；带推广性质的内容源已在引用时单独标注。</p>
+  <p>价格与免费额度变动频繁，正式采购前请以厂商官方页面为准。</p>
+</footer>
+
+<script>
+/* =====================================================================
+   填充说明（两个子代理按此规范填充，勿改动 CSS 与渲染函数结构）：
+   1. PRODUCTS：每个产品一个对象，字段见下。cat 取值 video/live/clone/interactive；
+      score 为 10 分制主观共识分（可小数，null 表示不评分，如"无此能力"条目）；
+      avail 取值 free（有免费额度）/ paid（付费或仅 API）；
+      site 为官方域名（label 显示名，url 链接）；
+      free 写免费额度具体口径；price 写价格（国内人民币；海外 USD 并附 cny 约合人民币）；
+      basis 写 10-25 字评分依据；note 写特点与局限（40-90 字）。
+   2. PRICE_POINTS：x=最低付费月费（元，免费记 0，海外换算为人民币），y=评分，free=true/false，lp=标签位置(top/bottom/right/left)。
+   3. TIMELINE：{when, what, why, hot}，hot=true 表示关键节点（赭色圆点）。
+   4. VERIFIED：{name, verdict, note}，verdict 可含 <span class="tag">…</span>。
+   5. SOURCES：按产品分组，items 为 [来源类型, 链接HTML(或纯文本), 支撑字段]。
+   6. TODOS：[产品, 待确认说明]。
+   7. 除数据数组外，还需替换：报头 kicker/h1/subtitle/meta-row、strip 四个数字、
+      各 section 的 lede 与解读段落、（01）核心结论三卡、（05）时间线总结。
+   8. 完成后用 Edge/Chrome 无头模式截桌面与移动两张图存入 _shots 目录并自查布局。
+===================================================================== */
+
+const PRODUCTS = [
+  {name:"HeyGen（Avatar IV / AI Studio）", dev:"HeyGen｜美国洛杉矶（2020 年创立于深圳，后迁总部）", cat:"video",
+   score:8.7, avail:"free", site:{label:"heygen.com", url:"https://www.heygen.com/"},
+   free:"免费档每月 3 条视频（单条≤1 分钟、720p、带水印）",
+   price:"Creator $29/月（年付 $24/月）、Pro $49/月、Business $149/月起 + $20/席",
+   cny:"≈¥206/月（年付 ≈¥170）；Pro ≈¥348；Business ≈¥1058 起",
+   basis:"横评中口型与头像自然度属第一梯队；语种覆盖与配音口碑好",
+   note:"Avatar IV 与 AI Studio 支持照片+语音克隆一键出口播，175+ 语种配音，LiveAvatar 另提供实时交互；局限：按积分计费、折算后分钟单价偏高，免费档仅 1 分钟/条且带水印。"},
+  {name:"Synthesia（Express / Personal Avatar）", dev:"Synthesia Limited｜英国伦敦（2017 年成立，UCL 团队背景）", cat:"video",
+   score:8.6, avail:"free", site:{label:"synthesia.io", url:"https://www.synthesia.io/"},
+   free:"Basic 免费档每月 10 分钟视频（500 积分、创作与导出受限）",
+   price:"Starter $29/月（年付 $18/月）、Creator $89/月（年付 $64/月）、Enterprise 报价制",
+   cny:"≈¥206/月（年付 ≈¥128）；Creator ≈¥632（年付 ≈¥454）",
+   basis:"G2 4.7 分与企业级口碑领先；授权与合规流程被反复引用",
+   note:"企业培训场景最成熟：240+ 预制头像、Personal Avatar 须本人录制同意视频、140+ 语种与交互式课程；局限：社交短口播灵活性一般，免费档分钟数少、导出受限。"},
+  {name:"Colossyan Creator", dev:"Colossyan｜匈牙利布达佩斯（总部；伦敦、纽约设办事处，2020 年成立）", cat:"video",
+   score:7.9, avail:"free", site:{label:"colossyan.com", url:"https://www.colossyan.com/"},
+   free:"Starter 免费档约 20 分钟 NEO 模型视频/月，可用 300+ 头像",
+   price:"付费档自 $27/月（年付约 $19/月）；Enterprise 报价制（官网口径不一致，待确认）",
+   cny:"≈¥192/月（年付 ≈¥135）",
+   basis:"培训场景横评中多语种与分支剧情突出；渲染速度获好评",
+   note:"面向企业培训：文档、PPT、PDF 直接转课程，多头像对话与分支测验、100+ 语种；局限：消费级创意能力弱，免费档与付费档口径在官网不同页面不一致。"},
+  {name:"Elai.io（Panopto AI Video Studio）", dev:"Elai｜美国匹兹堡（Panopto 旗下，2024 年 10 月被收购；团队源于乌克兰）", cat:"video",
+   score:7.6, avail:"free", site:{label:"elai.io", url:"https://elai.io/"},
+   free:"免费档每月 1 分钟视频（720p、带水印）",
+   price:"Basic $29/月（年付 ≈$23/月）、Advanced $49/月；企业报价制",
+   cny:"≈¥206/月（年付 ≈¥163）；Advanced ≈¥348",
+   basis:"被收购后评测集中在 L&D 场景；多语种配音稳定，真实度中等",
+   note:"面向企业 L&D：文本、PPT、PDF 直出带旁白的培训视频，80+ 头像、75+ 语种，并与 Panopto 视频平台打通；局限：形象真实度与口型自然度落后头部。"},
+  {name:"Fliki", dev:"Fliki（运营主体 Nine Thirty Five）｜第三方资料记为印度团队，官网未标注总部", cat:"video",
+   score:7.2, avail:"free", site:{label:"fliki.ai", url:"https://fliki.ai/"},
+   free:"免费永久档每月 3–5 积分（约 3–5 分钟视频、720p、带水印）",
+   price:"Standard $28/月（年付 $252/年，180 积分/月）；其余档位约 $8–88/月，官网口径不一",
+   cny:"≈¥199/月（年付 ≈¥149）；档位区间 ≈¥57–625/月",
+   basis:"文本转视频流水线成熟、音色库大；形象真实度属第二梯队",
+   note:"把脚本、2000+ 配音、字幕与素材合成一条流水线，70+ 公共头像与自定义数字分身；局限：头像真实度与口型稳定性一般，积分为主的免费额度偏紧。"},
+  {name:"Vidnoz AI", dev:"Vidnoz｜Wise Reward Limited，香港注册主体（2016 年成立，产品 2023 年上线）", cat:"video",
+   score:7.0, avail:"free", site:{label:"vidnoz.com", url:"https://www.vidnoz.com/"},
+   free:"免费档每日 30 积分（约 1 分钟/日、720p、带水印）",
+   price:"Starter $26.99/月（年付 $19.99/月）、Business $74.99/月（年付 $56.99/月）",
+   cny:"≈¥192/月（年付 ≈¥142）；Business ≈¥532（年付 ≈¥405）",
+   basis:"低价与 1900+ 头像库是主要卖点；真实度评分中下",
+   note:"1900+ 头像、2000+ 音色、140+ 语种，门槛低上手快，适合批量出片；局限：形象与口型精细度落后头部，免费档水印与每日额度限制明显。"},
+  {name:"DeepBrain AI（AI Studios / AI Human）", dev:"DeepBrain AI｜韩国首尔（2016 年以 MoneyBrain 起家；硅谷、北京设办公室）", cat:"video",
+   score:8.0, avail:"free", site:{label:"aistudios.com", url:"https://www.aistudios.com/"},
+   free:"免费档每月最多 3 条视频（单条≤3 分钟、720p、1 个自定义头像）",
+   price:"Personal $24/月、Team $55/席/月；交互式 Avatar 标准档 $99/月（100 积分）",
+   cny:"≈¥170/月；Team ≈¥390/席；交互档 ≈¥703/月",
+   basis:"韩语与企业播报落地案例多；AI Human 实时交互被金融采用",
+   note:"AI Studios 出口播视频、AI Human 做实时数字人应答，落地以银行/电信客服与新闻播报为主；局限：中文与创意玩法弱于美系产品，积分换算后单价不低。"},
+  {name:"Synthesys（AI Studio）", dev:"Synthesys｜NOUVEAU MEDIA LTD，英国伦敦（2020 年成立）", cat:"video",
+   score:7.2, avail:"free", site:{label:"synthesys.io", url:"https://synthesys.io/"},
+   free:"提供免费档（可用基础头像/音色，官网未公示具体分钟或积分数）",
+   price:"Personal $20/月、Creator $41/月、Business Unlimited $69/月",
+   cny:"≈¥142/月；Creator ≈¥291；Business ≈¥490",
+   basis:"低价席位与 1000+ 头像库受中小团队欢迎；真实度中游",
+   note:"上传照片加 10 秒语音即可建数字分身，1000+ 头像、400+ 音色、140+ 语种，档位清晰；局限：形象真实度与口型精细度一般，免费档口径不透明。"},
+  {name:"Yepic AI（Studio / Video Agents）", dev:"Yepic AI｜英国伦敦（2019 年成立）", cat:"video",
+   score:7.4, avail:"paid", site:{label:"yepic.ai", url:"https://www.yepic.ai/"},
+   free:"无永久免费档；Basic 档含 3 个免费自定义高清头像（试用额度未公示）",
+   price:"Basic $20/用户/月；高阶档与私有化部署为定制报价",
+   cny:"≈¥142/用户/月",
+   basis:"报道聚焦实时视频客服与多语种口型；社区评测样本偏少",
+   note:"照片转说话视频与实时 LLM 视频客服双线，110+ 语种、450+ 音色，支持受监管行业私有化部署；局限：真实度与生态规模不及第一梯队，免费与定价口径不透明。"},
+  {name:"Creatify（Aurora / Boreal）", dev:"Creatify｜美国旧金山/山景城（2023 年成立，累计融资 $23M）", cat:"video",
+   score:7.8, avail:"free", site:{label:"creatify.ai", url:"https://creatify.ai/"},
+   free:"免费档每月 10 积分（约 2 条视频广告、带水印）",
+   price:"Starter $19/月（100 积分）、Pro $49/月；部分官方页面将 Starter 标为 $39/月",
+   cny:"≈¥135/月；Pro ≈¥348",
+   basis:"广告投放向横评认可其头像表现；Aurora 模型被多家平台接入",
+   note:"贴商品链接即出 UGC 风格口播广告，Aurora 头像模型同时上线 ElevenLabs、fal.ai；局限：偏广告批量生产，长视频与高保真形象非强项，档位定价口径不一致。"},
+  {name:"Captions / Mirage（Mirage Studio、AI Twin）", dev:"Captions（Mirage）｜美国纽约（2021 年成立，累计融资超 $175M，2025 年 9 月更名 Mirage）", cat:"video",
+   score:7.9, avail:"free", site:{label:"captions.ai", url:"https://captions.ai/"},
+   free:"有免费档（基础剪辑与少量生成额度；AI Twin 与头像能力需付费档）",
+   price:"Pro $9.99/月、Max $24.99/月、Scale $69.99/月；Mirage Studio（品牌广告）Business 档约 $399/月；Avatar X API 约 $0.15/秒",
+   cny:"≈¥71/月；Max ≈¥177；Scale ≈¥497；Business ≈¥2833/月；API ≈¥1.07/秒",
+   basis:"iOS 原生 AI Twin 口型精度被评测列为英文竖屏最佳；用户超 2000 万",
+   note:"移动端剪辑起家，Mirage 模型支持 AI Twin 口播与广告级生成，2026 年 3 月获 $75M 增长融资；局限：头像能力绑在高价 Business 档，企业 API 单价不低。"},
+  {name:"Wondershare Virbo", dev:"万兴科技（Wondershare）｜中国深圳；Virbo 为其面向海外市场的产品线（出海产品）", cat:"video",
+   score:7.3, avail:"free", site:{label:"virbo.wondershare.com", url:"https://virbo.wondershare.com/"},
+   free:"免费试用（约 2 分钟视频额度，导出带水印）",
+   price:"月付约 $19.9–28.9/月；年付 Essential $44.9/年、Creator $79.9/年",
+   cny:"≈¥141–205/月；年付档 ≈¥319/年、≈¥567/年",
+   basis:"海外评测认可性价比与多语种口播；形象真实度属中游",
+   note:"出海定位的平价口播数字人：140+ 语种、300+ 头像，与万兴剪辑订阅生态联动；局限：形象与口型真实度不及头部，免费额度仅试用级。"},
+  {name:"ElevenLabs（Avatars / ElevenCreative）", dev:"ElevenLabs｜英国伦敦与美国纽约（2022 年成立）", cat:"video",
+   score:8.3, avail:"free", site:{label:"elevenlabs.io", url:"https://elevenlabs.io/"},
+   free:"免费档每月 10,000 积分（不可商用、不支持声音克隆）",
+   price:"Starter $6/月（30,000 积分）、Creator $22/月（121,000 积分，首月 $11）、Pro $99/月；Avatars 需付费档",
+   cny:"≈¥43/月；Creator ≈¥156；Pro ≈¥703",
+   basis:"语音克隆与音质公认第一梯队；形象层 2026 年才补齐",
+   note:"2026 年在 ElevenCreative 上线 Avatars，把顶级语音克隆与唇形同步模型合进同一界面；局限：形象真实度与动作自然度尚未达到专用数字人厂商，免费档不可商用。"},
+  {name:"Akool（Avatar Video / Streaming Avatar）", dev:"Akool｜美国帕洛阿尔托（2022 年成立，2025 年 Inc. 5000 榜首，ARR 约 $40M）", cat:"video",
+   score:7.1, avail:"free", site:{label:"akool.com", url:"https://www.akool.com/"},
+   free:"新用户赠 100 积分（约 200 秒 720p/1080p 视频）",
+   price:"Pro 档约 $30/月起；企业档与 API 报价制",
+   cny:"≈¥213/月起",
+   basis:"流式头像与视频翻译是主要收入来源；真实度评分一般",
+   note:"同时做口播头像、流式交互头像与视频翻译，与 AMD 合作端侧实时头像；局限：形象真实度与生态成熟度中等，公开定价体系不透明。"},
+  {name:"D-ID（Studio / Agents）", dev:"D-ID｜以色列特拉维夫（2017 年成立）", cat:"clone",
+   score:7.5, avail:"free", site:{label:"d-id.com", url:"https://www.d-id.com/"},
+   free:"14 天免费试用（约 3 分钟视频、10 分钟流式交互额度）",
+   price:"Studio Lite $5.90/月、Pro $29/月、Advanced $196/月；API Build $18/月（64 积分）、Launch $35/月",
+   cny:"≈¥42/月；Pro ≈¥206；Advanced ≈¥1392；API Build ≈¥128/月",
+   basis:"照片说话最早普及者；社区对真实度与客服评价分化",
+   note:"单张照片驱动的说话头像与实时对话 Agents，是「照片开口说话」的品类代名词；局限：照片驱动的僵硬感与口型瑕疵被用户社区反复提及，高价档性价比争议大。"},
+  {name:"Hedra（Character-3 / Elements）", dev:"Hedra｜美国（2024 年成立，2025 年获 a16z 领投 $32M A 轮）", cat:"clone",
+   score:8.1, avail:"free", site:{label:"hedra.com", url:"https://www.hedra.com/"},
+   free:"免费档每月 300 积分（带水印、仅个人非商用）",
+   price:"Basic $15–20/月、Creator $30/月、Pro $75/月",
+   cny:"≈¥107–142/月；Creator ≈¥213；Pro ≈¥533",
+   basis:"Character-3 的情绪与微表情被反复横测为照片驱动第一梯队",
+   note:"单图驱动角色视频，Character-3 支持至 10 分钟长内容与情绪建模，Elements 维持角色一致性；局限：更偏创作工具而非企业口播流程，免费额度不可商用。"},
+  {name:"Argil", dev:"Argil｜法国巴黎（2023 年成立，YC 校友，累计融资约 €4.9M）", cat:"clone",
+   score:7.7, avail:"free", site:{label:"argil.ai", url:"https://www.argil.ai/"},
+   free:"免费档提供约 2 分钟视频额度（另有 5 天试用口径）",
+   price:"Classic $39/月、Pro $149/月、Scale $499/月（官网另有更低口径，待确认）",
+   cny:"≈¥277/月；Pro ≈¥1058；Scale ≈¥3543",
+   basis:"创作者向形象克隆口碑好；第三方横评样本少于头部",
+   note:"上传 2 分钟素材即可克隆本人形象与声音，自动加字幕与 AI B-roll 出成片，主打创作者个人 IP 规模化；局限：企业合规与协作能力弱，定价口径在官网与文档间不一致。"},
+  {name:"Tavus（CVI / Phoenix）", dev:"Tavus｜美国旧金山（2020 年成立）", cat:"interactive",
+   score:8.4, avail:"free", site:{label:"tavus.io", url:"https://www.tavus.io/"},
+   free:"免费档含 25 分钟会话额度 + 5 分钟视频生成、25 个公共 replica",
+   price:"Starter $59/月、Growth $397/月；企业报价制",
+   cny:"≈¥419/月；Growth ≈¥2819/月",
+   basis:"实时时延与口型被多家横评引用为第一梯队；开发者生态成熟",
+   note:"Phoenix 渲染 + Sparrow 对话流模型，官方称画面时延 134 毫秒、对话时延低于 600 毫秒、43 语种，可用本人 replica 做实时视频 Agent；局限：单价高、需工程集成。"},
+  {name:"Anam AI", dev:"Anam｜英国伦敦（2023 年成立，团队源自 Synthesia，2025 年获 $9M 种子轮）", cat:"interactive",
+   score:8.2, avail:"free", site:{label:"anam.ai", url:"https://anam.ai/"},
+   free:"免费档每月 30 分钟（单次会话限 3 分钟、1 个自定义头像）",
+   price:"付费档自 $12/月起；Growth $299/月（含 2,000 分钟）、Professional $999/月（含 8,000 分钟），超额约 $0.11–0.16/分钟",
+   cny:"≈¥85/月起；Growth ≈¥2123/月；Professional ≈¥7093/月",
+   basis:"横评常与 Tavus 并列实时交互第一梯队；公开时延指标激进",
+   note:"面向开发者的实时对话头像，强调情绪表达与低时延，2026 年 7 月推出单图驱动的 Cara-4（25fps）；局限：自定义头像与并发按档位限制，分钟数越大单价越硬。"},
+  {name:"Beyond Presence", dev:"Beyond Presence｜德国柏林（2023 年成立，YC 校友）", cat:"interactive",
+   score:7.8, avail:"free", site:{label:"beyondpresence.ai", url:"https://www.beyondpresence.ai/"},
+   free:"免费档每月约 2,000 积分（约 40 分钟对话）",
+   price:"Starter €49/月、Growth €149–210/月、Scale €349/月（档位与并发口径不一）",
+   cny:"≈¥376/月；Growth ≈¥1143–1611；Scale ≈¥2677（欧元按 €1≈$1.08 折美元后换算）",
+   basis:"YC 系实时数字人，媒体关注秒级克隆与自然度；信源样本少",
+   note:"面向企业客服与销售的实时视频数字人，主打低延迟对话与快速形象克隆，深耕欧洲企业市场；局限：公开评测与用户社区样本少，档位与额度口径分散。"},
+  {name:"Simli", dev:"Simli｜2023 年 YC 校友，团队分布于美英（公司总部口径未公开）", cat:"interactive",
+   score:7.3, avail:"free", site:{label:"simli.com", url:"https://www.simli.com/"},
+   free:"免费档每月 50 分钟 + 注册赠 $10 额度（1 路并发）",
+   price:"Hobby $10/月（1,000 分钟，超出 $0.01/分钟）、Pro $49/月（5,500 分钟）、Scale $249/月（27,500 分钟）",
+   cny:"≈¥71/月；Pro ≈¥348；Scale ≈¥1768",
+   basis:"定位语音 Agent 的「脸层」，分钟单价最低；真实度属中游",
+   note:"开发者向的语音转视频渲染层，可接 LiveKit、Pipecat 与自有 LLM、语音，适合客服与陪练场景；局限：不提供成品应用与运营工具，表现依赖自建管线。"},
+  {name:"LemonSlice（Lemon Slice-2）", dev:"LemonSlice｜美国旧金山（YC 校友，2025 年 12 月获 $10.5M 种子轮）", cat:"interactive",
+   score:8.0, avail:"free", site:{label:"lemonslice.com", url:"https://lemonslice.com/"},
+   free:"免费档无需订阅（可与官网展示头像实时对话试用）",
+   price:"Starter $8/月（1,000 积分、3 路并发）、Creator $40/月、Professional $100/月、Scale $240/月",
+   cny:"≈¥57/月；Creator ≈¥284；Professional ≈¥710；Scale ≈¥1704",
+   basis:"多家横评列为交互式头像综合第一；单图即可用、门槛低",
+   note:"200 亿参数视频扩散模型把任意单图变成可对话视频，支持自带 LLM 与语音，档位价格透明；局限：云端 GPU 推理成本高，高并发与长时会话的成本弹性大。"},
+  {name:"UneeQ（Digital Human OS）", dev:"UneeQ｜新西兰奥克兰起家（原 FaceMe，2009/2010 年），团队分布于美加澳新欧", cat:"interactive",
+   score:7.4, avail:"paid", site:{label:"digitalhumans.com", url:"https://www.digitalhumans.com/"},
+   free:"无公开免费档（企业级销售，可申请演示/试用）",
+   price:"待确认（官网不公示价格，按企业项目报价）",
+   cny:"待确认",
+   basis:"企业数字人十年积累、有大客户案例；缺公开基准",
+   note:"Digital Human OS 提供写实与 3D 数字人、LLM 编排与私有化部署，主攻客户服务与沉浸式培训；局限：无自助定价与免费额度，采购周期长，公开横评数据少。"},
+  {name:"Runway（Characters）", dev:"Runway｜美国纽约（2018 年成立）", cat:"interactive",
+   score:8.0, avail:"free", site:{label:"runway.com", url:"https://runway.com/"},
+   free:"免费档 125 一次性积分（带水印）",
+   price:"Standard $15/月（年付 $12/月、625 积分）、Pro $35/月（年付 $28）、Max $95/月（年付 $76）；Characters 按积分计费",
+   cny:"≈¥107/月（年付 ≈¥85）；Pro ≈¥249（年付 ≈¥199）；Max ≈¥675（年付 ≈¥540）",
+   basis:"Characters 被科技媒体广泛报道；通用视频模型背书强",
+   note:"单张图生成 24fps、端到端约 1.75 秒延迟的可对话数字人，可作为 Agent 加入视频会议；局限：数字人只是其大平台中的一块，形象一致性与专注度不及专用厂商。"},
+  {name:"Syntopia", dev:"Syntopia｜英国（面向 TikTok Shop 的 AI 直播数字人服务商）", cat:"live",
+   score:7.2, avail:"paid", site:{label:"syntopia.ai", url:"https://syntopia.ai/"},
+   free:"无免费档（按直播小时订阅，定制形象另行报价）",
+   price:"Standard $780/月（120 小时直播）、Unlimited $2,580–2,800/月（24/7）；定制报价制",
+   cny:"≈¥5538/月；Unlimited ≈¥18318–19880/月",
+   basis:"海外少见在营的 AI 直播数字人；第三方评测样本稀少",
+   note:"为 TikTok Shop 提供 24/7 数字人直播带货，含实时问答、多语种与运营分析，替代人工主播成本；局限：定价高、信源以官方内容为主，效果高度依赖品类与话术。"},
+];
+
+const PRICE_POINTS = [
+  {name:'D-ID', x:42, y:7.5, free:true, lp:'left'},
+  {name:'ElevenLabs', x:43, y:8.3, free:true, lp:'right'},
+  {name:'LemonSlice', x:57, y:8.0, free:true, lp:'right'},
+  {name:'Captions/Mirage', x:71, y:7.9, free:true, lp:'right'},
+  {name:'Simli', x:71, y:7.3, free:true, lp:'bottom'},
+  {name:'Anam', x:85, y:8.2, free:true, lp:'right'},
+  {name:'Runway', x:107, y:8.0, free:true, lp:'bottom'},
+  {name:'Hedra', x:107, y:8.1, free:true, lp:'top'},
+  {name:'Creatify', x:135, y:7.8, free:true, lp:'right'},
+  {name:'Virbo', x:141, y:7.3, free:true, lp:'right'},
+  {name:'Synthesys', x:142, y:7.2, free:true, lp:'bottom'},
+  {name:'Yepic AI', x:142, y:7.4, free:false, lp:'top'},
+  {name:'DeepBrain AI', x:170, y:8.0, free:true, lp:'right'},
+  {name:'Colossyan', x:192, y:7.9, free:true, lp:'right'},
+  {name:'Vidnoz', x:192, y:7.0, free:true, lp:'left'},
+  {name:'Fliki', x:199, y:7.2, free:true, lp:'right'},
+  {name:'HeyGen', x:206, y:8.7, free:true, lp:'top'},
+  {name:'Synthesia', x:206, y:8.6, free:true, lp:'bottom'},
+  {name:'Elai.io', x:206, y:7.6, free:true, lp:'right'},
+  {name:'Akool', x:213, y:7.1, free:true, lp:'right'},
+  {name:'Argil', x:277, y:7.7, free:true, lp:'right'},
+];
+
+const TIMELINE = [
+  {when:'2025.05', what:'Wix 收购 Hour One，老牌口播数字人退出独立经营',
+   why:'以色列数字人厂商 Hour One（2019 年成立于特拉维夫）被建站平台 Wix 收购，团队并入 Wix 特拉维夫总部，独立平台随后停运，技术转入 Wix 的生成式视频能力。出处：<a class="ext" href="https://www.wix.com/press-room/home/post/wix-acquires-hour-one-to-expand-generative-ai-capabilities-and-accelerate-product-innovation">Wix 新闻稿</a>、<a class="ext" href="https://www.timesofisrael.com/liveblog_entry/israeli-tech-giant-wix-said-to-be-cutting-some-20-of-global-workforce-in-coming-months/">Times of Israel</a>。', hot:true},
+  {when:'2025.12', what:'LemonSlice 出隐身：实时交互头像成为独立赛道',
+   why:'旧金山的 AI 实验室 Lemon Slice 结束隐身期，宣布 1050 万美元种子轮（Matrix、YC 联合领投）并发布 Lemon Slice-2——用单张图生成可实时对话的视频头像，云端单卡 20fps。出处：<a class="ext" href="https://www.prnewswire.com/news-releases/lemon-slice-debuts-with-10-5m-in-funding-and-unveils-real-time-interactive-avatars-302648920.html">PR Newswire</a>、<a class="ext" href="https://www.thesaasnews.com/news/lemon-slice-raises-10-5m-seed-round">The SaaS News</a>。', hot:false},
+  {when:'2026.01', what:'Synthesia 完成 2 亿美元 E 轮，估值翻倍至 40 亿美元',
+   why:'英国伦敦的 Synthesia 由 Google Ventures 领投、Evantic 与 Hedosophia 参投，NVentures、Accel、Kleiner Perkins 等老股东跟投，累计融资超 5 亿美元，成为企业级 AI 视频的最高估值公司。出处：<a class="ext" href="https://www.synthesia.io/post/series-e-200-million-4-billion-valuation-future-work">Synthesia 官方公告</a>、<a class="ext" href="https://www.nasdaq.com/articles/synthesia-raises-200-mln-series-e-4-bln">Nasdaq/RTTNews</a>。', hot:true},
+  {when:'2026.02', what:'Soul Machines 进入破产接管程序',
+   why:'新西兰奥克兰的数字人先驱 Soul Machines（2016 年成立，主打 Digital People）由 KPMG 接管人接管（Leon Bowker、Luke Norman），客户合同中关于定制头像归属与数据迁移的条款随后被媒体逐一拆解。出处：<a class="ext" href="https://www.beri.net/article/appdirect-soul-machines-acquisition-receivership-custom-avatar-ownership-contract-terms">THE D*AI*LY BRIEF</a>。', hot:true},
+  {when:'2026.03', what:'Captions 更名 Mirage 并获 7500 万美元增长融资',
+   why:'纽约短视频公司 Captions 在 2025 年 9 月更名 Mirage 后，于 2026 年 3 月 24 日宣布获得 General Catalyst 客户价值基金 7500 万美元增长融资，累计融资超 1.75 亿美元，主推 Mirage Studio 与 AI Twin 头像广告。出处：<a class="ext" href="https://captions.ai/blog/announcing-mirages-usd75m-growth-financing-with-general-catalyst/">Mirage 官方博客</a>、<a class="ext" href="https://www.fobi.com/avatars/companies/captions">fobi 融资档案</a>。', hot:false},
+  {when:'2026.03–05', what:'Runway 发布 Characters：通用视频厂商进入实时数字人',
+   why:'Runway 以世界模型 GWM-1 驱动上线 Characters，把单张参考图变成 24fps、端到端约 1.75 秒延迟的可对话视频 Agent，并可直接加入 Zoom、Meet、Teams 会议；5 月 4 日发布技术拆解。出处：<a class="ext" href="https://runway.com/news/introducing-runway-characters">Runway 官方新闻</a>、<a class="ext" href="https://explainx.ai/blog/runway-characters-real-time-video-agents-gwm-1-2026">explainx 技术拆解汇总</a>。', hot:true},
+  {when:'2026.06', what:'ElevenLabs 上线 Avatars，语音厂商补上「脸」',
+   why:'ElevenLabs 在 ElevenCreative 内推出 Avatars：把自家语音模型与外部唇形同步模型合进同一界面，从脚本直达成片，Creator 档即可使用（官方多语种博客页标注 6 月 11 日，英文页显示 8 月更新）。出处：<a class="ext" href="https://elevenlabs.io/blog/introducing-avatars">ElevenLabs 官方博客</a>。', hot:false},
+  {when:'2026.09', what:'AppDirect 收购 Soul Machines，数字人资产并入 Devs.ai',
+   why:'2026 年 9 月 28 日，B2B 订阅商务平台 AppDirect 宣布收购处于接管程序中的 Soul Machines，其头像技术与 40 多个 LLM 无关的 AI 顾问库将嵌入 Devs.ai 平台，交易金额未披露。出处：<a class="ext" href="https://www.businesswire.com/news/home/20260928626489/en/AppDirect-Acquires-Soul-Machines-to-Expand-Enterprise-AI-Experiences-for-Advisors-and-Businesses">Business Wire</a>、<a class="ext" href="https://siliconangle.com/2026/09/28/appdirect-acquires-interactive-ai-avatar-firm-soul-machines-for-advisors-and-businesses/">SiliconANGLE</a>。', hot:true},
+];
+
+const VERIFIED = [
+  {name:'Hour One', verdict:'<span class="tag">已停服并并入</span>',
+   note:'以色列口播数字人厂商（2019 年成立于特拉维夫）。2025 年 5 月 23 日被 Wix 收购，团队并入 Wix 特拉维夫总部，独立 SaaS 平台停止运营，因此不进入主表评分。信源：<a class="ext" href="https://www.wix.com/press-room/home/post/wix-acquires-hour-one-to-expand-generative-ai-capabilities-and-accelerate-product-innovation">Wix 新闻稿</a>、<a class="ext" href="https://www.timesofisrael.com/liveblog_entry/israeli-tech-giant-wix-said-to-be-cutting-some-20-of-global-workforce-in-coming-months/">Times of Israel</a>。'},
+  {name:'Rephrase.ai', verdict:'<span class="tag">被收购，已不在营</span>',
+   note:'印度班加罗尔的人像合成视频公司，2023 年 11 月被 <b>Adobe</b> 收购（候选情报中的「被 HubSpot 收购」有误），Adobe 借此进入文本生成视频方向；官网产品页已停运，未见其在营版本，故不进入主表。信源：<a class="ext" href="https://www.businesstoday.in/amp/technology/news/story/adobe-ventures-into-ai-video-space-with-rephraseai-acquisition-report-406702-2023-11-22">Business Today</a>、<a class="ext" href="https://bestmediainfo.com/2023/11/adobe-acquires-bengalurubased-ai-video-creation-platform-rephrase-ai">Best Media Info</a>。'},
+  {name:'Soul Machines', verdict:'<span class="tag">破产接管后易主</span>',
+   note:'新西兰奥克兰数字人先驱（2016 年成立，Digital People）。2026 年 2 月进入 KPMG 接管程序，2026 年 9 月 28 日由 AppDirect 收购并并入 Devs.ai；原独立产品线不再单独售卖，故不评分。信源：<a class="ext" href="https://www.businesswire.com/news/home/20260928626489/en/AppDirect-Acquires-Soul-Machines-to-Expand-Enterprise-AI-Experiences-for-Advisors-and-Businesses">Business Wire</a>、<a class="ext" href="https://channelbuzz.ca/2026/10/the-buzz-appdirect-buys-soul-machines-cyberfox-lands-td-synnex-deal-rsa-takes-on-ai-agent-identity-47547/?share=print">ChannelBuzz</a>、<a class="ext" href="https://www.beri.net/article/appdirect-soul-machines-acquisition-receivership-custom-avatar-ownership-contract-terms">THE D*AI*LY BRIEF</a>。'},
+  {name:'NVIDIA ACE', verdict:'<span class="tag">技术底座，非成品</span>',
+   note:'ACE（Avatar Cloud Engine）是面向开发者的技术套件：NIM 微服务（ASR、TTS、Audio2Face-3D 等）加 SDK 与 GitHub 示例，供厂商自建数字人，本身不作为终端产品售卖，也没有产品级免费额度与定价，因此不纳入产品主表比较。信源：<a class="ext" href="https://www.nvidia.com/en-us/use-cases/digital-humans/">NVIDIA Digital Humans</a>、<a class="ext" href="https://developer.nvidia.com/ace-for-games">ACE for Games</a>、<a class="ext" href="https://docs.nvidia.com/ace/overview/2025.03.06/first-steps/index.html">ACE 官方文档</a>。'},
+  {name:'Runway Act-One / Act-Two', verdict:'<span class="tag">能力已澄清</span>',
+   note:'Act 系列是表演捕捉迁移（用真人视频驱动角色动作），属于「形象克隆」工具而非口播数字人成品；Runway 面向对话数字人的是 2026 年的 Characters（GWM-1 驱动），已作为 Runway 一条记录进主表，避免同一厂商重复占位。信源：<a class="ext" href="https://runway.com/news/introducing-runway-characters">Runway 官方新闻</a>、<a class="ext" href="https://runway.com/product/characters">Characters 产品页</a>。'},
+  {name:'Delphi', verdict:'<span class="tag">数字分身但无形象层</span>',
+   note:'美国旧金山，2022 年成立，2025 年 6 月获 Sequoia 领投 1600 万美元 A 轮（累计约 1870 万美元）。产品是把专家内容训练成可对话的「数字心智」，只有文本与语音、没有视频形象层，不满足「形象克隆/照片驱动」的定义，故不列入主表。信源：<a class="ext" href="https://www.delphi.ai/blog/delphi-raises-16m-series-a-from-sequoia">Delphi 官方公告</a>、<a class="ext" href="https://www.fobi.com/avatars/companies/delphi">fobi 档案</a>。'},
+  {name:'Hedra 官方域名', verdict:'<span class="tag">已核验为 hedra.com</span>',
+   note:'检索中出现 hedra.me、hedra.tech、hedra.pro、dream-ai.com 等多个同题材或同名站点，均非官方；Hedra 自身的帮助文档、开放 API 与反馈站都指向 hedra.com（hedra.com/docs/openapi、hedra.com/support），故官方网址取 hedra.com，第三方站点一律不作依据。信源：<a class="ext" href="https://hedra.featurebase.app/en">Hedra 官方反馈站</a>、<a class="ext" href="https://slashdot.org/software/p/Hedra/">Slashdot 软件档案</a>。'},
+  {name:'Kaiber', verdict:'<span class="tag">已转型，非数字人</span>',
+   note:'Kaiber 已从「静态图动起来」转型为多模型创意工作台（Canvas、Beat Sync、Editor），主打音乐驱动的视觉与歌词视频，无口播或直播数字人产品线，不计入主表。信源：<a class="ext" href="https://kaiber.ai/docs">Kaiber 官方文档</a>、<a class="ext" href="https://helpcenter.kaiber.ai/en/help/articles/7949312-noticed-some-changes-to-kaiber-heres-what-you-need-to">Kaiber 帮助中心</a>。'},
+  {name:'InVideo AI / Pictory', verdict:'<span class="tag">头像属附属功能</span>',
+   note:'横评显示 Pictory 不具备 AI 头像能力，InVideo AI 虽有人像头像但只是附加功能，两者核心是 prompt/脚本转视频与素材拼装，不构成数字人主赛道，列入核验表而非主表。信源：<a class="ext" href="https://aivideopicks.com/posts/best-ai-video-generators-marketing-teams-2026.html">AI Video Picks 横评</a>、<a class="ext" href="https://designrevision.com/alternatives/invideo-ai">DesignRevision 横评</a>。'},
+  {name:'Luma Dream Machine / Pika', verdict:'<span class="tag">对照项，非数字人</span>',
+   note:'两者是通用文生/图生视频模型，没有形象克隆或口播数字人产品线，仅可作为视频生成能力对照，不计入主表。信源：<a class="ext" href="https://www.techlinos.com/post/best-ai-video-generators/">TechLinos 横评</a>。'},
+  {name:'海外直播数字人供给', verdict:'<span class="tag">可核验者极少</span>',
+   note:'本轮仅核验到 Syntopia（英国，面向 TikTok Shop）一家以「直播数字人」为核心产品的在营厂商；HeyGen LiveAvatar、Akool 流式头像、LemonSlice、Tavus 等的实时能力更偏对话交互，按能力归入交互类而非直播类，因此主表的 live 品类只有 1 个产品，属如实归类。信源：<a class="ext" href="https://syntopia.ai/live-commerce/">Syntopia 直播电商页</a>、<a class="ext" href="https://meetcody.ai/blog/real-time-ai-avatar-models-compared/">meetcody 实时模型横评</a>。'},
+];
+
+const SOURCES = [
+  {p:'HeyGen', items:[
+    ['官方定价页','<a class="ext" href="https://www.heygen.com/pricing">heygen.com/pricing</a>','免费额度、付费档位（官网抓取受限，价格与第三方汇总交叉校对）'],
+    ['科技媒体/官方稿','<a class="ext" href="https://www.businesswire.com/news/home/20250603867425/en/HeyGen-Launches-AI-Studio-a-Next-Generation-AI-Video-Editor">Business Wire：HeyGen 发布 AI Studio</a>','产品能力、开发方与总部'],
+    ['用户社区/第三方横评','<a class="ext" href="https://tryorbye.com/heygen-pricing/">G2 4.8 与 Trustpilot 2.4 的口碑对比</a>・<a class="ext" href="https://frameloop.ai/blog/invideo-ai-alternatives-tools">Frameloop 2026 横评</a>','评分依据、形象真实度评价']]},
+  {p:'Synthesia', items:[
+    ['官方定价页','<a class="ext" href="https://www.synthesia.io/pricing">synthesia.io/pricing</a>','免费额度（Basic 10 分钟）、价格档位'],
+    ['官方新闻稿','<a class="ext" href="https://www.synthesia.io/post/series-e-200-million-4-billion-valuation-future-work">Synthesia 2 亿美元 E 轮公告</a>','开发方、融资、估值'],
+    ['科技媒体','<a class="ext" href="https://www.nasdaq.com/articles/synthesia-raises-200-mln-series-e-4-bln">Nasdaq/RTTNews</a>・<a class="ext" href="http://www.ucl.ac.uk/news/2026/jan/ai-video-startup-co-founded-ucl-professor-valued-4-billion">UCL 官方新闻</a>','领投方、成立年份与学术背景'],
+    ['第三方横评','<a class="ext" href="https://www.ranktracker.com/es/blog/ai-training-video-creators-enterprise-hr/">培训视频厂商横评（4.6/5）</a>','评分依据']]},
+  {p:'Colossyan', items:[
+    ['官方站点','<a class="ext" href="https://www.colossyan.com/">colossyan.com</a>','产品能力与定位'],
+    ['官方关于页','<a class="ext" href="https://www.colossyan.com/about/">Colossyan 办公室分布</a>','总部（布达佩斯）与伦敦/纽约办事处'],
+    ['官方功能页','<a class="ext" href="https://www.colossyan.com/features/ai-avatars/">AI Avatars 功能页</a>','300+ 头像、头像类型与免费档口径'],
+    ['第三方横评','<a class="ext" href="https://percify.io/blog/unlock-2026-ai-video-best-paid-avatar-tools-percify-guide">perCify 付费头像工具横评</a>','价格口径差异（$50/月 起）']]},
+  {p:'Elai.io', items:[
+    ['官方站点','<a class="ext" href="https://elai.io/">elai.io</a>','产品能力、免费额度'],
+    ['母品牌官方页','<a class="ext" href="https://www.panopto.com/company/about-panopto/">Panopto：2024 年 10 月收购 Elai</a>','开发方、收购现状与总部'],
+    ['第三方评测','<a class="ext" href="https://bestfreeaitools.io/ai-tools/elai-io-ai-review/">Elai 评测（含企业客户与收购细节）</a>','评分依据、价格、客户案例']]},
+  {p:'Fliki', items:[
+    ['官方站点','<a class="ext" href="https://fliki.ai/">fliki.ai</a>','产品能力、免费永久档、用户规模'],
+    ['官方功能页','<a class="ext" href="https://fliki.ai/features/ai-avatar">AI Avatar 功能页</a>','70+ 公共头像、数字分身、集成模型'],
+    ['第三方横评','<a class="ext" href="https://funnelscene.com/how-to-build-ai-twin-avatars/">AI 分身工具横评</a>','G2 4.5 / Trustpilot 4.7、价格档位']]},
+  {p:'Vidnoz AI', items:[
+    ['官方关于页','<a class="ext" href="https://www.vidnoz.com/about.html">vidnoz.com/about.html</a>','头像库规模、开发方'],
+    ['第三方目录','<a class="ext" href="https://aiagents.wiki/agents/vidnoz">Vidnoz 企业档案</a>','主体 Wise Reward Limited（香港）、免费档与价格'],
+    ['第三方评测','<a class="ext" href="https://wavel.ai/alternative/panjaya-alternatives">Wavel 目录：$26.99/月 起</a>','价格档位与评分口径']]},
+  {p:'DeepBrain AI', items:[
+    ['官方关于页','<a class="ext" href="https://www.aistudios.com/company/about">aistudios.com 关于我们</a>','总部首尔、硅谷与北京办公室'],
+    ['官方站点','<a class="ext" href="https://www.aistudios.com/">AI Studios 官网</a>','免费额度与价格档位（以官网为准）'],
+    ['第三方档案','<a class="ext" href="https://www.fobi.com/avatars/companies/deepbrain-ai">fobi：$55.8M 累计融资</a>','开发方与融资'],
+    ['第三方评测','<a class="ext" href="https://www.gappsy.com/tools/deepbrain-ai">Gappsy 评测</a>','评分依据、产品线拆分']]},
+  {p:'Synthesys', items:[
+    ['官方站点','<a class="ext" href="https://synthesys.io/">synthesys.io</a>','产品能力、1000+ 头像、140+ 语种'],
+    ['官方信息文件','<a class="ext" href="https://synthesys.io/llms.txt">Synthesys 官方 llms.txt</a>','公司主体 NOUVEAU MEDIA LTD、伦敦总部、2020 年成立'],
+    ['第三方评测','<a class="ext" href="https://aiwithsarah.blog/synthesys-ai-review/">Synthesys AI 评测</a>','价格档位（$20/$41/$69）与免费档口径']]},
+  {p:'Yepic AI', items:[
+    ['官方站点','<a class="ext" href="https://www.yepic.ai/">yepic.ai</a>','产品能力、实时视频 Agent'],
+    ['官方功能页','<a class="ext" href="https://www.yepic.ai/studio">Yepic Studio</a>','头像、110+ 语种、450+ 音色、免费自定义头像口径'],
+    ['官方定价页','<a class="ext" href="https://www.yepic.ai/valentines-lovebytes-sale">Yepic 官方促销页（含各档权益）</a>','Basic 档权益与 $49 定制头像'],
+    ['第三方评测','<a class="ext" href="https://www.vidmetoo.com/yepic-review/">Yepic Studio 评测</a>','开发方、成立年份、社区口碑']]},
+  {p:'Creatify', items:[
+    ['官方站点','<a class="ext" href="https://creatify.ai/">creatify.ai</a>','Aurora 模型、产品能力'],
+    ['官方新闻稿','<a class="ext" href="https://www.businesswire.com/news/home/20250528506486/en/Creatify-Crosses-%249M-ARR-Raises-%2415.5M-Series-A-to-Launch-the-First-End-to-End-AI-Ad-Agent-for-Video">Business Wire：$15.5M A 轮</a>','开发方、融资、ARR 与客户规模'],
+    ['第三方档案','<a class="ext" href="https://www.fobi.com/avatars/companies/creatify">fobi：总部与融资</a>・<a class="ext" href="https://yespress.io/creatify-ai">YesPress 公司档案</a>','总部（旧金山/山景城）、团队规模']]},
+  {p:'Captions / Mirage', items:[
+    ['官方站点与定价','<a class="ext" href="https://captions.ai/">captions.ai</a>・<a class="ext" href="https://captions.ai/plans">captions.ai/plans</a>','免费档与付费档位'],
+    ['官方博客','<a class="ext" href="https://captions.ai/blog/announcing-mirages-usd75m-growth-financing-with-general-catalyst/">Mirage $75M 增长融资公告</a>','更名 Mirage、融资、用户规模'],
+    ['第三方评测','<a class="ext" href="https://chatforest.com/reviews/captions-ai-mirage-short-form-video-editing/">Captions/Mirage 评测</a>・<a class="ext" href="https://playcut.ai/blog/captions-alternatives/">价格与 AI Twin 口型评价</a>','时间线、价格档位、评分依据']]},
+  {p:'Wondershare Virbo', items:[
+    ['官方站点','<a class="ext" href="https://virbo.wondershare.com/">virbo.wondershare.com</a>','产品能力、语种与头像库、免费试用'],
+    ['官方产品页','<a class="ext" href="https://virbo.wondershare.com/ai-avatar.html">Virbo AI Avatar 页</a>','数字分身与口播能力'],
+    ['第三方评测','<a class="ext" href="https://sspai.com/post/86137">少数派：AI 数字人工具推荐</a>','价格档位与使用体验'],
+    ['第三方横评','<a class="ext" href="https://beyondkey.com/blog/digital-human-video-creation-with-ai-avatars-create-best-from-static-avatar-images/">数字人口播工具对比</a>','功能与定价横向对比']]},
+  {p:'ElevenLabs', items:[
+    ['官方站点','<a class="ext" href="https://elevenlabs.io/">elevenlabs.io</a>','产品能力与开发者生态'],
+    ['官方博客','<a class="ext" href="https://elevenlabs.io/blog/introducing-avatars">Introducing Avatars in ElevenCreative</a>','Avatars 上线时间与功能（语音+唇形同步）'],
+    ['官方定价页','<a class="ext" href="https://elevenlabs.io/pricing">elevenlabs.io/pricing</a>','免费 10,000 积分与各档价格'],
+    ['用户社区','<a class="ext" href="https://dev.to/danivs10/voice-agent-pricing-at-real-volumes-the-monthly-bill-from-500-to-100000-minutes-460d">开发者社区的用量价格拆解</a>','按分钟计费口径、超额单价']]},
+  {p:'Akool', items:[
+    ['官方站点','<a class="ext" href="https://www.akool.com/">akool.com</a>','流式头像、口播头像、用户规模'],
+    ['官方产品页','<a class="ext" href="https://akool.com/apps/avatar-video">Avatar Video 页（含免费积分说明）</a>','免费额度（新用户 100 积分）'],
+    ['第三方评测','<a class="ext" href="https://www.firmcritics.com/review/akool-ai/">Akool 评测</a>・<a class="ext" href="https://yespress.io/jeff-lu">创始人访谈式档案</a>','总部、ARR、流式头像占比、评分依据']]},
+  {p:'D-ID', items:[
+    ['官方站点','<a class="ext" href="https://www.d-id.com/">d-id.com</a>','产品能力与开发方'],
+    ['官方定价页','<a class="ext" href="https://www.d-id.com/pricing/">d-id.com/pricing</a>','14 天试用、Studio 与 API 各档价格'],
+    ['第三方评测','<a class="ext" href="https://pexo.ai/pt-BR/alternativas/d-id">D-ID 评测（含 Trustpilot 1.5/5）</a>','评分依据、用户口碑'],
+    ['用户社区','<a class="ext" href="https://aitoolspolice.com/d-id/">Reddit 讨论汇总</a>','照片驱动的僵硬感与客服体验反馈']]},
+  {p:'Hedra', items:[
+    ['官方站点','<a class="ext" href="https://www.hedra.com/">hedra.com（官方域名）</a>','产品能力与官方入口'],
+    ['官方反馈站','<a class="ext" href="https://hedra.featurebase.app/en">hedra.featurebase.app</a>','官方域名核验（指向 hedra.com/support）'],
+    ['第三方档案','<a class="ext" href="https://slashdot.org/software/p/Hedra/">Slashdot 软件档案</a>','总部、成立年份、产品定位'],
+    ['第三方评测','<a class="ext" href="https://mycheckai.com/hedra-ai-review/">Hedra 评测</a>','免费额度（300 积分/月）与价格档位']]},
+  {p:'Argil', items:[
+    ['官方站点','<a class="ext" href="https://www.argil.ai/">argil.ai</a>','克隆流程（2 分钟素材）、剪辑能力'],
+    ['YC 企业页','<a class="ext" href="https://www.ycombinator.com/companies/argil">Y Combinator：Argil</a>','总部巴黎、创始人、YC 批次'],
+    ['第三方档案','<a class="ext" href="https://www.fobi.com/avatars/companies/argil">fobi：€4.9M 累计融资</a>','融资、定价口径差异']]},
+  {p:'Tavus', items:[
+    ['官方站点','<a class="ext" href="https://www.tavus.io/">tavus.io</a>','产品能力、43 语种与时延指标'],
+    ['官方产品页','<a class="ext" href="https://www.tavus.io/cvi">Tavus CVI</a>','Phoenix 134ms 与价格档位'],
+    ['官方信息页','<a class="ext" href="https://www.tavus.io/lp/ai-info-page">Tavus 官方信息页</a>','免费额度与模型命名'],
+    ['第三方横评','<a class="ext" href="https://www.toughtongueai.com/blog/best-virtual-avatar-solutions-2026/">实时头像厂商横评</a>','时延对比与评分依据']]},
+  {p:'Anam AI', items:[
+    ['官方站点','<a class="ext" href="https://anam.ai/">anam.ai</a>','产品能力与公司背景'],
+    ['官方定价页','<a class="ext" href="https://anam.ai/pricing">anam.ai/pricing</a>','免费 30 分钟与各档分钟数'],
+    ['第三方横评','<a class="ext" href="https://meetcody.ai/blog/real-time-ai-avatar-models-compared/">实时头像模型横评</a>','团队源自 Synthesia、Cara-4（2026.07）'],
+    ['第三方横评','<a class="ext" href="https://www.toughtongueai.com/blog/best-virtual-avatar-solutions-2026/">虚拟头像方案横评</a>','价格区间 $12–999/月']]},
+  {p:'Beyond Presence', items:[
+    ['官方站点','<a class="ext" href="https://www.beyondpresence.ai/">beyondpresence.ai</a>','产品能力与开发方'],
+    ['官方定价页','<a class="ext" href="https://www.beyondpresence.ai/pricing">beyondpresence.ai/pricing</a>','免费额度与档位（口径见待确认）'],
+    ['第三方目录','<a class="ext" href="https://look4ai.com/en/ai-tool-directory/beyond-presence/">look4ai 目录页</a>','免费 40 分钟/月与 €49 起步']]},
+  {p:'Simli', items:[
+    ['官方站点','<a class="ext" href="https://www.simli.com/">simli.com</a>','渲染层定位与集成方式'],
+    ['第三方价格拆解','<a class="ext" href="https://www.spatius.ai/tools/avatar-cost-calculator/">实时头像成本计算器</a>','分钟单价与档位结构'],
+    ['第三方横评','<a class="ext" href="https://aijourn.com/explore-the-6-best-real-time-ai-avatar-platforms-for-video-agents/">The AI Journal 实时头像横评</a>','评分依据与适用场景'],
+    ['开发者博客','<a class="ext" href="https://yuanchang.org/en/posts/ai-avatar-video-call-guide/">开发者实测记录</a>','免费档（$10 + 50 分钟）与时延']]},
+  {p:'LemonSlice', items:[
+    ['官方站点','<a class="ext" href="https://lemonslice.com/">lemonslice.com</a>','产品能力与单图生成'],
+    ['官方定价页','<a class="ext" href="https://lemonslice.com/pricing">lemonslice.com/pricing</a>','免费档与各档积分'],
+    ['科技媒体/官方稿','<a class="ext" href="https://www.prnewswire.com/news-releases/lemon-slice-debuts-with-10-5m-in-funding-and-unveils-real-time-interactive-avatars-302648920.html">PR Newswire：$10.5M 种子轮</a>','融资、总部旧金山、模型参数'],
+    ['第三方横评','<a class="ext" href="https://pctechmag.com/2026/08/10-best-interactive-ai-avatar-platforms-for-real-time-video-agents/">交互式头像平台横评</a>','评分依据（综合第一的评价）']]},
+  {p:'UneeQ', items:[
+    ['官方站点','<a class="ext" href="https://www.digitalhumans.com/">digitalhumans.com（官方入口）</a>','产品能力与官方域名'],
+    ['官方关于页','<a class="ext" href="https://www.digitalhumans.com/about">UneeQ 关于我们</a>','团队分布与产品定位（无公开定价）'],
+    ['第三方档案','<a class="ext" href="https://www.fobi.com/avatars/companies/uneeq">fobi：奥克兰、2010 年成立</a>','总部与成立时间'],
+    ['第三方市场图谱','<a class="ext" href="https://khaby.ai/blog/ai-digital-twin-market-map-2026/">数字分身市场全景</a>','定位、总部口径差异']]},
+  {p:'Runway', items:[
+    ['官方新闻','<a class="ext" href="https://runway.com/news/introducing-runway-characters">Introducing Runway Characters</a>','上线时间与 GWM-1 驱动'],
+    ['官方产品页','<a class="ext" href="https://runway.com/product/characters">Characters 产品页</a>','单图生成、24fps、实时轮次'],
+    ['官方定价页','<a class="ext" href="https://runway.com/pricing">runway.com/pricing</a>','免费积分与各档价格'],
+    ['第三方价格拆解','<a class="ext" href="https://saascrmreview.com/runway-ml-pricing/">Runway 价格拆解</a>','Standard/Pro/Max 月付与年付价格']]},
+  {p:'Syntopia', items:[
+    ['官方定价页','<a class="ext" href="https://syntopia.ai/pricing/">syntopia.ai/pricing</a>','Business $2,580/月 等档位'],
+    ['官方直播电商页','<a class="ext" href="https://syntopia.ai/live-commerce/">AI Live Commerce Host</a>','直播能力、$780/$2,800 档位与对比口径'],
+    ['第三方媒体','<a class="ext" href="https://www.ecommerceguide.com/blog/ai-avatar-tiktok-shop-live-streaming/">电商媒体横评（起步档口径）</a>','起步 $29/月起 的说法（待确认）']]},
+  {p:'跨产品核验与排除项', items:[
+    ['Hour One（已停运）','<a class="ext" href="https://www.wix.com/press-room/home/post/wix-acquires-hour-one-to-expand-generative-ai-capabilities-and-accelerate-product-innovation">Wix 收购公告</a>','退出主表的原因'],
+    ['Rephrase.ai','<a class="ext" href="https://www.businesstoday.in/amp/technology/news/story/adobe-ventures-into-ai-video-space-with-rephraseai-acquisition-report-406702-2023-11-22">Adobe 收购报道</a>','候选情报纠错（Adobe 而非 HubSpot）'],
+    ['Soul Machines','<a class="ext" href="https://www.businesswire.com/news/home/20260928626489/en/AppDirect-Acquires-Soul-Machines-to-Expand-Enterprise-AI-Experiences-for-Advisors-and-Businesses">AppDirect 收购稿</a>、<a class="ext" href="https://www.beri.net/article/appdirect-soul-machines-acquisition-receivership-custom-avatar-ownership-contract-terms">接管与合同条款分析</a>','破产接管与易主时间线'],
+    ['NVIDIA ACE','<a class="ext" href="https://www.nvidia.com/en-us/use-cases/digital-humans/">NVIDIA Digital Humans</a>、<a class="ext" href="https://developer.nvidia.com/ace-for-games">ACE for Games</a>','技术底座定位（非成品）'],
+    ['InVideo AI / Pictory','<a class="ext" href="https://aivideopicks.com/posts/best-ai-video-generators-marketing-teams-2026.html">AI Video Picks 横评</a>','头像能力属附属功能'],
+    ['Kaiber','<a class="ext" href="https://kaiber.ai/docs">Kaiber 官方文档</a>','已转型为多模型创意工作台'],
+    ['Delphi','<a class="ext" href="https://www.delphi.ai/blog/delphi-raises-16m-series-a-from-sequoia">Sequoia 领投 A 轮公告</a>','数字分身无形象层，未进主表']]},
+];
+
+const TODOS = [
+  ["候选情报纠错","候选清单写「Rephrase.ai 被 HubSpot 收购」，核验结果为 2023 年 11 月被 Adobe 收购；候选清单中的 Zeek 未检索到任何数字人产品、官网或定价，无法核实存在性。"],
+  ["Hour One 归属","2025 年 5 月被 Wix 收购后独立平台停运，Wix 是否以原品牌继续对外售卖其数字人能力，未见官方说明。"],
+  ["NVIDIA ACE","属技术底座（NIM 微服务与 SDK），无产品级免费额度与定价，无法与成品同表比较。"],
+  ["Luma Dream Machine / Pika","候选清单中的对照项：本轮未单独核验其官网与定价，从能力看属通用视频生成，无数字人产品线。"],
+  ["BytePlus AI Live","字节跳动海外品牌 BytePlus 的 AI 直播数字人，属中国大陆厂商出海产品线，按本次分片口径不进主表，仅作对照提及。"],
+  ["Simli 总部与免费档","官网未标注公司注册地，第三方资料称团队分布于美英；免费档口径（$10 注册额度 + 每月 50 分钟）来自第三方拆解而非官方页面。"],
+  ["Beyond Presence 定价","官方与第三方汇总在 €49 / €149 / €210 / €349 与并发数上口径不一，表中按第三方汇总记录，采购前须以官网为准。"],
+  ["Colossyan 免费档","官方博客称 Starter 免费永久（约 20 分钟 NEO/月），官方定价页另列 Starter 自 $19–27/月，收费口径存在冲突。"],
+  ["Creatify 入门档价格","官方不同页面分别标注 Starter $19/月 与 $39/月，本表取较低口径并标注差异。"],
+  ["Argil 定价","官网与帮助文档存在 $25 / $39 / $149 / $499 等多套口径，本表取 $39 起并标注待确认。"],
+  ["Synthesys 免费额度","官网提供免费档但未公示具体分钟数或积分数。"],
+  ["Yepic 免费档","官网未公示试用额度，仅列 Basic 档含 3 个免费自定义高清头像。"],
+  ["Hedra 定价","官网定价页在本轮检索中未能取得可引用原文，表中价格来自第三方汇总（$15–75/月），须以官网为准。"],
+  ["UneeQ 定价","官网不公示价格，按企业项目报价；第三方对其总部口径亦有奥克兰与奥斯汀两种说法。"],
+  ["Vidnoz 主体国籍","官网展示 Wise Reward Limited（2016 年成立），第三方资料记为香港主体，也有资料称美国团队，口径待确认。"],
+  ["Syntopia 起步档","第三方目录称其存在 $29/月（约 90 分钟）起步档，官方页面仅有 $780 与 $2,580–2,800 档，未取到官方确认。"],
+  ["ElevenLabs Avatars 上线时间","官方博客多语种页面标注 2026 年 6 月 11 日，英文页显示 2026 年 8 月更新，首发日期待确认。"],
+  ["HeyGen 免费档与积分口径","免费档 3 条/月、Creator 600 积分的口径来自官方定价页与第三方汇总交叉校对；官网对无头抓取返回受限页面，未能逐字复核。"],
+];
+
+/* ================= 渲染：总表 ================= */
+const CAT = {video:'口播视频', live:'直播数字人', clone:'形象克隆', interactive:'交互式数字人'};
+const CAT_TAG = {video:'cat-video', live:'cat-live', clone:'cat-clone', interactive:'cat-interactive'};
+const tableEl = document.getElementById('mainTable');
+PRODUCTS.forEach(function(p){
+  const availTag = p.avail === 'free'
+    ? '<span class="tag free">可免费使用</span>'
+    : '<span class="tag paid">付费或仅 API</span>';
+  const catTag = '<span class="tag ' + CAT_TAG[p.cat] + '">' + CAT[p.cat] + '</span>';
+  const scoreHtml = (p.score === null)
+    ? '<span class="score na">—</span>'
+    : '<span class="score">' + p.score.toFixed(1) + '</span>';
+  const priceHtml = p.price + (p.cny ? '<span class="note-inline" style="display:block;margin-top:3px">' + p.cny + '</span>' : '');
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td data-label="产品 / 开发方"><span class="pname">' + p.name + '</span><span class="dev">' + p.dev + '</span><span style="display:block;margin-top:6px">' + catTag + availTag + '</span></td>' +
+    '<td data-label="评分">' + scoreHtml + '</td>' +
+    '<td data-label="评分依据"><span class="basis">' + p.basis + '</span></td>' +
+    '<td data-label="官方入口"><a class="ext" href="' + p.site.url + '">' + p.site.label + '</a></td>' +
+    '<td data-label="免费额度">' + p.free + '</td>' +
+    '<td data-label="价格">' + priceHtml + '</td>' +
+    '<td data-label="特点与局限">' + p.note + '</td>';
+  tableEl.appendChild(tr);
+});
+document.getElementById('tableCaption').textContent =
+  '注：评分为主观共识评分（满分 10），非厂商官方指标。价格与免费额度均以 2026-10-07 公开信息为准；标注「待确认」表示本轮未取得可靠官方口径。';
+
+/* ================= 渲染：时间线 ================= */
+const tlEl = document.getElementById('timeline');
+TIMELINE.forEach(function(t){
+  var d = document.createElement('div');
+  d.className = 'tnode' + (t.hot ? ' hot' : '');
+  d.innerHTML = '<div class="when">' + t.when + '</div><div class="axis"><i class="dot"></i></div>' +
+                '<div class="body"><p class="what">' + t.what + '</p><p class="why">' + t.why + '</p></div>';
+  tlEl.appendChild(d);
+});
+
+/* ================= 渲染：核验表 ================= */
+const vEl = document.getElementById('verifyTable');
+VERIFIED.forEach(function(v){
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td data-label="厂商 / 产品"><span class="pname">' + v.name + '</span></td>' +
+                 '<td data-label="核验结论">' + v.verdict + '</td>' +
+                 '<td data-label="说明">' + v.note + '</td>';
+  vEl.appendChild(tr);
+});
+
+/* ================= 渲染：信源索引 ================= */
+const srcEl = document.getElementById('sourceIndex');
+SOURCES.forEach(function(g){
+  var h = document.createElement('div');
+  h.className = 'srcgrp';
+  var rows = g.items.map(function(it){
+    var link = /^https?:/.test(it[1]) ? '<a class="ext" href="' + it[1] + '">' + it[1] + '</a>' : it[1];
+    link = link.replace(/・/g, '<br>');
+    return '<li class="srcitem">' +
+           '<span class="srclabel">' + it[0] + '</span>' +
+           '<span class="srcbody">' + link +
+           '<span class="srcfield">支撑字段：' + it[2] + '</span></span></li>';
+  }).join('');
+  h.innerHTML = '<h3>' + g.p + '</h3><ul class="srclist">' + rows + '</ul>';
+  srcEl.appendChild(h);
+});
+
+/* ================= 渲染：待确认 ================= */
+const todoEl = document.getElementById('todoList');
+TODOS.forEach(function(t, i){
+  var d = document.createElement('div');
+  d.className = 't';
+  d.innerHTML = '<div class="n">' + (i + 1) + '</div><div class="c"><b>' + t[0] + '：</b>' + t[1] + '</div>';
+  todoEl.appendChild(d);
+});
+
+/* ================= ECharts ================= */
+var C = {primary:'#12564C', accent:'#C4762A', ink:'#1F2329', ink2:'#646A73', ink3:'#8A939B', line:'#DEE3E8'};
+var CAT_COLOR = {video:'#12564C', live:'#C4762A', clone:'#4E7BA6', interactive:'#7C8A5A'};
+var FONT = '"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif';
+
+function renderScore(){
+  var el = document.getElementById('chartScore');
+  if(!el || typeof echarts === 'undefined') return;
+  var data = PRODUCTS.filter(function(p){return p.score !== null;})
+                     .slice().sort(function(a,b){return a.score - b.score;});
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:72, top:18, bottom:34, containLabel:true},
+    tooltip:{
+      trigger:'axis', axisPointer:{type:'shadow'},
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var i = ps[0].dataIndex, p = data[i];
+        return '<b>' + p.name + '</b><br/>综合评分：' + p.score.toFixed(1) + ' / 10<br/>品类：' + CAT[p.cat] +
+               '<br/>开发者：' + p.dev + '<br/>评分依据：' + p.basis;
+      }
+    },
+    xAxis:{
+      type:'value', min:0, max:10, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'category',
+      data:data.map(function(p){return p.name;}),
+      axisLine:{show:false}, axisTick:{show:false},
+      axisLabel:{color:C.ink, fontFamily:FONT, fontSize:13.5}
+    },
+    series:[{
+      type:'bar', barWidth:'58%',
+      data:data.map(function(p){
+        return {
+          value:p.score,
+          itemStyle:{color:CAT_COLOR[p.cat], borderRadius:[0,3,3,0]}
+        };
+      }),
+      label:{
+        show:true, position:'right', fontFamily:FONT, fontSize:13.5,
+        fontWeight:'bold', color:C.ink, formatter:function(ps){return ps.value.toFixed(1);}
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+function renderPrice(){
+  var el = document.getElementById('chartPrice');
+  if(!el || typeof echarts === 'undefined' || !PRICE_POINTS.length) return;
+  var chart = echarts.init(el);
+  chart.setOption({
+    grid:{left:8, right:40, top:26, bottom:56, containLabel:true},
+    tooltip:{
+      trigger:'item',
+      backgroundColor:'#fff', borderColor:C.line, borderWidth:1,
+      textStyle:{color:C.ink, fontFamily:FONT, fontSize:14},
+      formatter:function(ps){
+        var d = ps.data, v = d.value;
+        return '<b>' + d.name + '</b><br/>最低付费月费：' + (v[0] === 0 ? '0（完全免费）' : '¥' + v[0] + '/月') +
+               '<br/>综合评分：' + v[1].toFixed(1);
+      }
+    },
+    xAxis:{
+      type:'value', min:-8, max:300,
+      axisLine:{lineStyle:{color:C.line}}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13, formatter:'{value}'},
+      name:'最低付费月费（元）', nameLocation:'middle', nameGap:34,
+      nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    yAxis:{
+      type:'value', min:6.4, max:9.2, splitNumber:5,
+      axisLine:{show:false}, axisTick:{show:false},
+      splitLine:{lineStyle:{color:'#EDF1F4'}},
+      axisLabel:{color:C.ink3, fontFamily:FONT, fontSize:13},
+      name:'综合评分', nameTextStyle:{color:C.ink2, fontFamily:FONT, fontSize:13}
+    },
+    series:[{
+      type:'scatter',
+      symbolSize:16,
+      data:PRICE_POINTS.map(function(p){
+        return {
+          name:p.name,
+          value:[p.x, p.y],
+          free:p.free,
+          label:{position:p.lp, distance:10}
+        };
+      }),
+      itemStyle:{
+        color:function(ps){return ps.data.free ? C.primary : C.accent;},
+        borderColor:'#fff', borderWidth:1.5
+      },
+      label:{
+        show:true, fontFamily:FONT, fontSize:12.5, color:C.ink,
+        formatter:function(ps){return ps.data.name;}
+      },
+      markLine:{
+        silent:true, symbol:'none',
+        lineStyle:{color:C.primary, type:'dashed', width:1, opacity:.55},
+        label:{show:true, position:'insideEndTop', fontFamily:FONT, fontSize:12, color:C.primary,
+               formatter:'完全免费区'},
+        data:[{xAxis:0}]
+      }
+    }]
+  });
+  window.addEventListener('resize', function(){chart.resize();});
+}
+
+renderScore();
+renderPrice();
+</script>
+
+</main>
+
+</body>
+</html>
